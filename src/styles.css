@@ -1,0 +1,393 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Alexandria", "IBM Plex Sans Arabic", "Cairo", "Tajawal", ui-sans-serif, system-ui;
+  --font-display: "Alexandria", "IBM Plex Sans Arabic", serif;
+  --font-body: "IBM Plex Sans Arabic", "Cairo", "Tajawal", sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --radius-2xl: 40px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Brand */
+  --color-blush: var(--blush);
+  --color-cream: var(--cream);
+  --color-sage: var(--sage);
+  --color-rose-gold: var(--rose-gold);
+  --color-charcoal: var(--charcoal);
+  --color-ink: var(--ink);
+
+  --shadow-luxe: 0 30px 80px -30px color-mix(in oklab, var(--charcoal) 25%, transparent);
+  --shadow-soft: 0 12px 40px -20px color-mix(in oklab, var(--charcoal) 18%, transparent);
+}
+
+:root {
+  --radius: 18px;
+
+  --background: oklch(1 0 0);           /* #FFFFFF */
+  --foreground: oklch(0.22 0.008 30);   /* near #1C1C1C */
+
+  --blush: oklch(0.955 0.024 10);       /* #FCEEF3 */
+  --cream: oklch(0.985 0.012 70);       /* #FFF8F3 */
+  --sage: oklch(0.74 0.028 140);        /* #A8B5A2 */
+  --rose-gold: oklch(0.78 0.075 40);    /* rose gold */
+  --charcoal: oklch(0.22 0.008 30);
+  --ink: oklch(0.28 0.008 30);
+
+  --card: oklch(1 0 0);
+  --card-foreground: var(--charcoal);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--charcoal);
+
+  --primary: var(--charcoal);
+  --primary-foreground: oklch(0.99 0.005 70);
+
+  --secondary: var(--blush);
+  --secondary-foreground: var(--charcoal);
+
+  --muted: var(--cream);
+  --muted-foreground: oklch(0.48 0.01 30);
+
+  --accent: var(--rose-gold);
+  --accent-foreground: oklch(1 0 0);
+
+  --destructive: oklch(0.58 0.19 25);
+  --destructive-foreground: oklch(1 0 0);
+
+  --border: oklch(0.92 0.006 40);
+  --input: oklch(0.94 0.006 40);
+  --ring: var(--rose-gold);
+}
+
+.dark {
+  --background: oklch(0.18 0.006 30);
+  --foreground: oklch(0.97 0.006 70);
+  --card: oklch(0.22 0.006 30);
+  --card-foreground: oklch(0.97 0.006 70);
+  --popover: oklch(0.22 0.006 30);
+  --popover-foreground: oklch(0.97 0.006 70);
+  --primary: oklch(0.97 0.006 70);
+  --primary-foreground: oklch(0.18 0.006 30);
+  --secondary: oklch(0.28 0.01 30);
+  --secondary-foreground: oklch(0.97 0.006 70);
+  --muted: oklch(0.26 0.008 30);
+  --muted-foreground: oklch(0.72 0.01 30);
+  --accent: var(--rose-gold);
+  --accent-foreground: oklch(1 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: var(--rose-gold);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    font-feature-settings: "ss01", "kern";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: var(--blush);
+    color: var(--charcoal);
+  }
+}
+
+@utility container-luxe {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  max-width: 1360px;
+  @media (min-width: 768px) { padding-inline: 2rem; }
+  @media (min-width: 1280px) { padding-inline: 3rem; }
+}
+
+@utility eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--rose-gold);
+  font-weight: 500;
+}
+
+@utility hairline {
+  height: 1px;
+  background: linear-gradient(to left, transparent, color-mix(in oklab, var(--charcoal) 20%, transparent), transparent);
+}
+
+@utility glass {
+  background: color-mix(in oklab, white 65%, transparent);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid color-mix(in oklab, white 60%, transparent);
+}
+
+@utility btn-luxe {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.95rem 1.75rem;
+  background: var(--charcoal);
+  color: var(--primary-foreground);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s ease, box-shadow .3s ease;
+  box-shadow: 0 12px 30px -15px color-mix(in oklab, var(--charcoal) 60%, transparent);
+  &:hover {
+    transform: translateY(-2px);
+    background: color-mix(in oklab, var(--charcoal) 85%, var(--rose-gold));
+  }
+}
+
+@utility btn-ghost-luxe {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--charcoal);
+  position: relative;
+  padding-bottom: 4px;
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background: var(--charcoal);
+    transform-origin: right;
+    transition: transform .5s cubic-bezier(.2,.8,.2,1);
+  }
+  &:hover::after { transform: scaleX(0.4); transform-origin: left; }
+}
+
+@keyframes float-slow {
+  0%,100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@utility animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
+@utility animate-reveal { animation: reveal-up .9s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 color-mix(in oklab, var(--rose-gold) 40%, transparent); }
+  70%  { box-shadow: 0 0 0 14px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+@utility animate-shimmer { animation: shimmer 3s ease-in-out infinite; }
+@utility animate-count-up { animation: count-up .7s cubic-bezier(.2,.8,.2,1) both; }
+@utility animate-fade-in-up { animation: fade-in-up .8s cubic-bezier(.2,.8,.2,1) both; }
+@utility animate-scale-in { animation: scale-in .6s cubic-bezier(.2,.8,.2,1) both; }
+@utility animate-pulse-ring { animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+/* Shimmer text utility */
+@utility text-shimmer {
+  background: linear-gradient(90deg, var(--rose-gold) 0%, #e8c36a 40%, var(--rose-gold) 60%, #c9a55c 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Glassmorphism card */
+@utility card-glass {
+  background: color-mix(in oklab, white 72%, transparent);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid color-mix(in oklab, white 55%, transparent);
+  box-shadow: 0 8px 32px -8px color-mix(in oklab, var(--charcoal) 12%, transparent),
+              inset 0 1px 0 color-mix(in oklab, white 80%, transparent);
+}
+
+/* Hover lift card */
+@utility card-hover {
+  transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px -20px color-mix(in oklab, var(--charcoal) 22%, transparent);
+  }
+}
+
+/* ─── Marquee ─────────────────────────────────────────────────── */
+@keyframes marquee-ltr {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes marquee-rtl {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+@utility animate-marquee       { animation: marquee-ltr 36s linear infinite; }
+@utility animate-marquee-slow  { animation: marquee-ltr 54s linear infinite; }
+@utility animate-marquee-rev   { animation: marquee-rtl 40s linear infinite; }
+
+/* ─── Scroll cue line ─────────────────────────────────────────── */
+@keyframes grow-line {
+  0%,100% { transform: scaleY(0.3); opacity: 0.3; transform-origin: top; }
+  50%     { transform: scaleY(1);   opacity: 1;   transform-origin: top; }
+}
+
+/* ─── Scroll-triggered fade-up (JS driven via IntersectionObserver) ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .85s cubic-bezier(.2,.8,.2,1), transform .85s cubic-bezier(.2,.8,.2,1);
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Stagger helpers ─────────────────────────────────────────── */
+.delay-100  { transition-delay: 100ms  !important; }
+.delay-200  { transition-delay: 200ms  !important; }
+.delay-300  { transition-delay: 300ms  !important; }
+.delay-400  { transition-delay: 400ms  !important; }
+.delay-500  { transition-delay: 500ms  !important; }
+
+/* ─── Image parallax-scale on hover ──────────────────────────── */
+@utility img-zoom {
+  overflow: hidden;
+  & img {
+    transition: transform 1.2s cubic-bezier(.2,.8,.2,1);
+  }
+  &:hover img {
+    transform: scale(1.06);
+  }
+}
+
+/* ─── Underline draw animation ───────────────────────────────── */
+@keyframes underline-draw {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* ─── Enhanced global animations ────────────────────────────────── */
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@utility animate-slide-in-right { animation: slide-in-right .7s cubic-bezier(.2,.8,.2,1) both; }
+@utility animate-slide-in-left  { animation: slide-in-left  .7s cubic-bezier(.2,.8,.2,1) both; }
+@utility animate-fade-in        { animation: fade-in        .6s ease both; }
+
+/* Stagger children for list animations */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s cubic-bezier(.2,.8,.2,1), transform .6s cubic-bezier(.2,.8,.2,1);
+}
+.stagger-children.in-view > *:nth-child(1)  { opacity: 1; transform: none; transition-delay:  50ms; }
+.stagger-children.in-view > *:nth-child(2)  { opacity: 1; transform: none; transition-delay: 120ms; }
+.stagger-children.in-view > *:nth-child(3)  { opacity: 1; transform: none; transition-delay: 190ms; }
+.stagger-children.in-view > *:nth-child(4)  { opacity: 1; transform: none; transition-delay: 260ms; }
+.stagger-children.in-view > *:nth-child(5)  { opacity: 1; transform: none; transition-delay: 330ms; }
+.stagger-children.in-view > *:nth-child(6)  { opacity: 1; transform: none; transition-delay: 400ms; }
+
+/* Marquee slow variant already defined above as animate-marquee-slow */
+
+/* Smooth image hover transitions site-wide */
+.img-hover-zoom {
+  overflow: hidden;
+}
+.img-hover-zoom img {
+  transition: transform 1.4s cubic-bezier(.2,.8,.2,1);
+}
+.img-hover-zoom:hover img {
+  transform: scale(1.07);
+}
+
+/* Page transition */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+main, [data-page] {
+  animation: page-in .55s cubic-bezier(.2,.8,.2,1) both;
+}
+
+/* Elegant focus style */
+:focus-visible {
+  outline: 2px solid var(--rose-gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Smooth marquee for atelier row (inline images) */
+@keyframes marquee-inline {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee-inline { animation: marquee-inline 20s linear infinite; }
