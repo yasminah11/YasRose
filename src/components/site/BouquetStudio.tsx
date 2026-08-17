@@ -1,13 +1,31 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
-  X, Plus, Minus, Undo2, Redo2, Shuffle, Save, Share2, Copy, ShoppingBag,
-  Sparkles, Check,
+  X,
+  Plus,
+  Minus,
+  Undo2,
+  Redo2,
+  Shuffle,
+  Save,
+  Share2,
+  Copy,
+  ShoppingBag,
+  Sparkles,
+  Check,
 } from "lucide-react";
 import { IMG } from "@/lib/shop-data";
 
-type FlowerKey = "rose" | "tulip" | "lily" | "peony" | "hydrangea" | "sunflower" | "orchid" | "baby";
-const FLOWERS: { key: FlowerKey; name: string; price: number; hex: string; emoji: string; image: string }[] = [
+type FlowerKey =
+  "rose" | "tulip" | "lily" | "peony" | "hydrangea" | "sunflower" | "orchid" | "baby";
+const FLOWERS: {
+  key: FlowerKey;
+  name: string;
+  price: number;
+  hex: string;
+  emoji: string;
+  image: string;
+}[] = [
   { key: "rose", name: "ورد جوري", price: 22, hex: "#B03A48", emoji: "🌹", image: IMG.b2 },
   { key: "tulip", name: "توليب", price: 18, hex: "#E29A6B", emoji: "🌷", image: IMG.b3 },
   { key: "lily", name: "زنبق", price: 24, hex: "#F7F3EE", emoji: "🌸", image: IMG.b1 },
@@ -78,25 +96,52 @@ type Design = {
   notes: string;
 };
 
-const emptyFlowers = FLOWERS.reduce((a, f) => ({ ...a, [f.key]: 0 }), {} as Record<FlowerKey, number>);
+const emptyFlowers = FLOWERS.reduce(
+  (a, f) => ({ ...a, [f.key]: 0 }),
+  {} as Record<FlowerKey, number>,
+);
 const initial: Design = {
   flowers: { ...emptyFlowers, rose: 5 },
-  size: "m", wrap: "white", ribbon: "gold", card: "بسيطة", message: "",
-  extras: [], vase: "none", recipient: "", date: "", time: "", notes: "",
+  size: "m",
+  wrap: "white",
+  ribbon: "gold",
+  card: "بسيطة",
+  message: "",
+  extras: [],
+  vase: "none",
+  recipient: "",
+  date: "",
+  time: "",
+  notes: "",
 };
 
 const SECTIONS = [
-  "أنواع الزهور", "الكمية", "الحجم", "التغليف", "الشريط",
-  "بطاقة الإهداء", "إضافات فاخرة", "المزهرية", "التوصيل",
+  "أنواع الزهور",
+  "الكمية",
+  "الحجم",
+  "التغليف",
+  "الشريط",
+  "بطاقة الإهداء",
+  "إضافات فاخرة",
+  "المزهرية",
+  "التوصيل",
 ];
 
 // ─── Premium SVG Bouquet Preview ──────────────────────────────────────────────
 
-type FlowerDef = typeof FLOWERS[number];
+type FlowerDef = (typeof FLOWERS)[number];
 
 function hexToRgb(hex: string): [number, number, number] {
   const h = hex.replace("#", "");
-  const n = parseInt(h.length === 3 ? h.split("").map((c) => c + c).join("") : h, 16);
+  const n = parseInt(
+    h.length === 3
+      ? h
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : h,
+    16,
+  );
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
 
@@ -126,7 +171,15 @@ interface BouquetPreviewProps {
   flowerCount: number;
 }
 
-function BouquetPreview({ activeFlowers, flowerCounts, wrapColor, wrapKey, ribbonColor, sizeName, flowerCount }: BouquetPreviewProps) {
+function BouquetPreview({
+  activeFlowers,
+  flowerCounts,
+  wrapColor,
+  wrapKey,
+  ribbonColor,
+  sizeName,
+  flowerCount,
+}: BouquetPreviewProps) {
   // SVG viewport
   const W = 400;
   const H = 500;
@@ -137,8 +190,15 @@ function BouquetPreview({ activeFlowers, flowerCounts, wrapColor, wrapKey, ribbo
 
   // Build flower positions: center flowers larger, edges smaller, rotated outward
   type FlowerPos = {
-    x: number; y: number; r: number; hex: string; zIndex: number;
-    rotate: number; shadowR: number; id: string; emoji: string;
+    x: number;
+    y: number;
+    r: number;
+    hex: string;
+    zIndex: number;
+    rotate: number;
+    shadowR: number;
+    id: string;
+    emoji: string;
   };
 
   const flowerPositions: FlowerPos[] = [];
@@ -147,10 +207,14 @@ function BouquetPreview({ activeFlowers, flowerCounts, wrapColor, wrapKey, ribbo
     // Center flower (largest)
     const centerFlower = activeFlowers[0];
     flowerPositions.push({
-      x: cx, y: 175,
-      r: 38, hex: centerFlower.hex,
-      zIndex: 10, rotate: 0,
-      shadowR: 6, id: `f-center`,
+      x: cx,
+      y: 175,
+      r: 38,
+      hex: centerFlower.hex,
+      zIndex: 10,
+      rotate: 0,
+      shadowR: 6,
+      id: `f-center`,
       emoji: centerFlower.emoji,
     });
 
@@ -163,7 +227,7 @@ function BouquetPreview({ activeFlowers, flowerCounts, wrapColor, wrapKey, ribbo
       const ring = i % 2 === 0 ? 0 : 1;
       const ringRadius = ring === 0 ? 62 : 100;
       const totalInRing = ringCount;
-      const angle = ((i / totalInRing) * Math.PI * 2) - Math.PI / 2 + seededRandom(i * 17) * 0.4;
+      const angle = (i / totalInRing) * Math.PI * 2 - Math.PI / 2 + seededRandom(i * 17) * 0.4;
       const jitter = seededRandom(i * 31) * 18 - 9;
       const px = cx + Math.cos(angle) * (ringRadius + jitter);
       const py = 175 + Math.sin(angle) * (ringRadius * 0.75 + jitter * 0.5);
@@ -171,10 +235,11 @@ function BouquetPreview({ activeFlowers, flowerCounts, wrapColor, wrapKey, ribbo
       const baseR = ring === 0 ? 30 : 22;
       const countBoost = Math.min(count, 10) * 0.5;
       // outward rotation
-      const outwardAngle = (angle * 180 / Math.PI) + (ring === 0 ? 12 : 20);
+      const outwardAngle = (angle * 180) / Math.PI + (ring === 0 ? 12 : 20);
 
       flowerPositions.push({
-        x: px, y: py,
+        x: px,
+        y: py,
         r: baseR + countBoost,
         hex: f.hex,
         zIndex: ring === 0 ? 7 : 4,
@@ -285,7 +350,10 @@ function BouquetPreview({ activeFlowers, flowerCounts, wrapColor, wrapKey, ribbo
           <feMorphology operator="dilate" radius="1" in="SourceAlpha" result="expanded" />
           <feFlood floodColor={darken(wrapColor, 20)} floodOpacity="0.6" result="color" />
           <feComposite in="color" in2="expanded" operator="in" result="outline" />
-          <feMerge><feMergeNode in="outline" /><feMergeNode in="SourceGraphic" /></feMerge>
+          <feMerge>
+            <feMergeNode in="outline" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
         </filter>
       </defs>
 
@@ -294,12 +362,20 @@ function BouquetPreview({ activeFlowers, flowerCounts, wrapColor, wrapKey, ribbo
 
       {/* Bokeh circles for depth */}
       {[
-        { cx: 30, cy: 80, r: 28 }, { cx: 370, cy: 120, r: 20 },
-        { cx: 60, cy: 310, r: 16 }, { cx: 350, cy: 380, r: 24 },
-        { cx: 320, cy: 60, r: 12 }, { cx: 80, cy: 430, r: 18 },
-        { cx: 15, cy: 200, r: 10 }, { cx: 385, cy: 260, r: 14 },
+        { cx: 30, cy: 80, r: 28 },
+        { cx: 370, cy: 120, r: 20 },
+        { cx: 60, cy: 310, r: 16 },
+        { cx: 350, cy: 380, r: 24 },
+        { cx: 320, cy: 60, r: 12 },
+        { cx: 80, cy: 430, r: 18 },
+        { cx: 15, cy: 200, r: 10 },
+        { cx: 385, cy: 260, r: 14 },
       ].map((b, i) => (
-        <circle key={i} cx={b.cx} cy={b.cy} r={b.r}
+        <circle
+          key={i}
+          cx={b.cx}
+          cy={b.cy}
+          r={b.r}
           fill={i % 2 === 0 ? lighten(wrapColor, 60) : "#F5C6D0"}
           opacity={0.18 + (i % 3) * 0.04}
           filter="url(#bokeh-blur)"
@@ -413,20 +489,25 @@ function BouquetPreview({ activeFlowers, flowerCounts, wrapColor, wrapKey, ribbo
       {/* ── Flowers ── (rendered in z-index order) */}
       {activeFlowers.length === 0 && (
         <text
-          x={cx} y={200}
-          textAnchor="middle" dominantBaseline="middle"
-          fontSize="14" fill="#8A6A5A" fontFamily="Cairo, sans-serif"
+          x={cx}
+          y={200}
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontSize="14"
+          fill="#8A6A5A"
+          fontFamily="Cairo, sans-serif"
         >
           اختر زهورك لتبدأ التصميم
         </text>
       )}
 
       {flowerPositions.map((fp, idx) => {
-        const fDef = activeFlowers.find((f) => {
-          if (idx === 0 && fp.id === "f-center") return true;
-          const pos = flowerPositions.indexOf(fp);
-          return activeFlowers[pos] !== undefined;
-        }) ?? activeFlowers[idx % activeFlowers.length];
+        const fDef =
+          activeFlowers.find((f) => {
+            if (idx === 0 && fp.id === "f-center") return true;
+            const pos = flowerPositions.indexOf(fp);
+            return activeFlowers[pos] !== undefined;
+          }) ?? activeFlowers[idx % activeFlowers.length];
 
         return (
           <g key={fp.id} transform={`translate(${fp.x},${fp.y})`} filter="url(#ao-shadow)">
@@ -434,8 +515,8 @@ function BouquetPreview({ activeFlowers, flowerCounts, wrapColor, wrapKey, ribbo
             {[0, 60, 120, 180, 240, 300].map((deg, pi) => (
               <ellipse
                 key={pi}
-                cx={Math.cos((deg + fp.rotate) * Math.PI / 180) * fp.r * 0.68}
-                cy={Math.sin((deg + fp.rotate) * Math.PI / 180) * fp.r * 0.5}
+                cx={Math.cos(((deg + fp.rotate) * Math.PI) / 180) * fp.r * 0.68}
+                cy={Math.sin(((deg + fp.rotate) * Math.PI) / 180) * fp.r * 0.5}
                 rx={fp.r * 0.44}
                 ry={fp.r * 0.32}
                 transform={`rotate(${deg + fp.rotate})`}
@@ -444,17 +525,13 @@ function BouquetPreview({ activeFlowers, flowerCounts, wrapColor, wrapKey, ribbo
               />
             ))}
             {/* Center disc */}
-            <circle
-              r={fp.r * 0.32}
-              fill={lighten(fDef?.hex ?? "#B03A48", 30)}
-              opacity={0.95}
-            />
+            <circle r={fp.r * 0.32} fill={lighten(fDef?.hex ?? "#B03A48", 30)} opacity={0.95} />
             {/* Center texture dots */}
             {[0, 72, 144, 216, 288].map((deg, di) => (
               <circle
                 key={di}
-                cx={Math.cos(deg * Math.PI / 180) * fp.r * 0.15}
-                cy={Math.sin(deg * Math.PI / 180) * fp.r * 0.15}
+                cx={Math.cos((deg * Math.PI) / 180) * fp.r * 0.15}
+                cy={Math.sin((deg * Math.PI) / 180) * fp.r * 0.15}
                 r={fp.r * 0.045}
                 fill={darken(fDef?.hex ?? "#B03A48", 15)}
                 opacity={0.6}
@@ -510,14 +587,24 @@ function BouquetPreview({ activeFlowers, flowerCounts, wrapColor, wrapKey, ribbo
       <ellipse cx={cx - 2} cy={ribbonY - 2} rx={4} ry={3} fill="white" opacity={0.35} />
 
       {/* ── Badge / info pill ── */}
-      <rect x={W - 130} y={14} width={116} height={30} rx={15}
-        fill="white" fillOpacity={0.72}
+      <rect
+        x={W - 130}
+        y={14}
+        width={116}
+        height={30}
+        rx={15}
+        fill="white"
+        fillOpacity={0.72}
         style={{ backdropFilter: "blur(12px)" }}
       />
       <text
-        x={W - 72} y={29}
-        textAnchor="middle" dominantBaseline="middle"
-        fontSize="11" fill="#3D2A20" fontFamily="Cairo, sans-serif"
+        x={W - 72}
+        y={29}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fontSize="11"
+        fill="#3D2A20"
+        fontFamily="Cairo, sans-serif"
       >
         {sizeName} · {flowerCount} زهرة
       </text>
@@ -536,12 +623,16 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   // autosave
   useEffect(() => {
-    try { localStorage.setItem("fn-bouquet-design", JSON.stringify(design)); } catch {}
+    try {
+      localStorage.setItem("fn-bouquet-design", JSON.stringify(design));
+    } catch {}
   }, [design]);
   useEffect(() => {
     try {
@@ -570,10 +661,14 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
 
   const totals = useMemo(() => {
     const size = SIZES.find((s) => s.key === design.size)!;
-    const flowersPrice = FLOWERS.reduce((sum, f) => sum + f.price * design.flowers[f.key], 0) * size.mult;
+    const flowersPrice =
+      FLOWERS.reduce((sum, f) => sum + f.price * design.flowers[f.key], 0) * size.mult;
     const wrap = WRAPS.find((w) => w.key === design.wrap)?.price ?? 0;
     const vase = VASES.find((v) => v.key === design.vase)?.price ?? 0;
-    const extras = design.extras.reduce((s, k) => s + (EXTRAS.find((e) => e.key === k)?.price ?? 0), 0);
+    const extras = design.extras.reduce(
+      (s, k) => s + (EXTRAS.find((e) => e.key === k)?.price ?? 0),
+      0,
+    );
     const subtotal = Math.round(flowersPrice + wrap + vase + extras);
     const delivery = subtotal > 500 ? 0 : 45;
     const discount = subtotal > 800 ? Math.round(subtotal * 0.08) : 0;
@@ -584,7 +679,10 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
   }, [design]);
 
   const random = () => {
-    const rnd = FLOWERS.reduce((a, f) => ({ ...a, [f.key]: Math.floor(Math.random() * 8) }), {} as Record<FlowerKey, number>);
+    const rnd = FLOWERS.reduce(
+      (a, f) => ({ ...a, [f.key]: Math.floor(Math.random() * 8) }),
+      {} as Record<FlowerKey, number>,
+    );
     update({
       flowers: rnd,
       size: SIZES[Math.floor(Math.random() * SIZES.length)].key,
@@ -605,23 +703,38 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
   const activeFlowers = FLOWERS.filter((f) => design.flowers[f.key] > 0);
 
   const node = (
-    <div className="fixed inset-0 z-[100] flex flex-col bg-charcoal/40 backdrop-blur-md animate-reveal" dir="rtl">
+    <div
+      className="fixed inset-0 z-[100] flex flex-col bg-charcoal/40 backdrop-blur-md animate-reveal"
+      dir="rtl"
+    >
       <div className="absolute inset-0" onClick={onClose} aria-hidden />
       <div className="relative flex-1 flex flex-col bg-cream m-2 sm:m-6 rounded-[28px] overflow-hidden shadow-luxe">
         {/* Header */}
         <div className="flex items-center justify-between px-6 sm:px-10 py-5 border-b border-border/60 bg-background/60 backdrop-blur">
           <div className="flex items-center gap-3">
-            <span className="w-10 h-10 rounded-full bg-gradient-to-br from-blush to-rose-gold grid place-items-center">🌸</span>
+            <span className="w-10 h-10 rounded-full bg-gradient-to-br from-blush to-rose-gold grid place-items-center">
+              🌸
+            </span>
             <div>
               <div className="eyebrow text-rose-gold">استوديو التنسيق</div>
               <div className="font-display text-lg">صمّم باقتك بنفسك</div>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <IconBtn label="تراجع" onClick={undo}><Undo2 className="w-4 h-4" /></IconBtn>
-            <IconBtn label="إعادة" onClick={redo}><Redo2 className="w-4 h-4" /></IconBtn>
-            <IconBtn label="عشوائي" onClick={random}><Shuffle className="w-4 h-4" /></IconBtn>
-            <button onClick={onClose} aria-label="إغلاق" className="w-10 h-10 grid place-items-center rounded-full hover:bg-blush/60 transition">
+            <IconBtn label="تراجع" onClick={undo}>
+              <Undo2 className="w-4 h-4" />
+            </IconBtn>
+            <IconBtn label="إعادة" onClick={redo}>
+              <Redo2 className="w-4 h-4" />
+            </IconBtn>
+            <IconBtn label="عشوائي" onClick={random}>
+              <Shuffle className="w-4 h-4" />
+            </IconBtn>
+            <button
+              onClick={onClose}
+              aria-label="إغلاق"
+              className="w-10 h-10 grid place-items-center rounded-full hover:bg-blush/60 transition"
+            >
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -642,16 +755,26 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
                       return (
                         <button
                           key={f.key}
-                          onClick={() => update({ flowers: { ...design.flowers, [f.key]: active ? 0 : 3 } })}
+                          onClick={() =>
+                            update({ flowers: { ...design.flowers, [f.key]: active ? 0 : 3 } })
+                          }
                           className={`relative p-4 rounded-2xl border transition-all text-center ${
-                            active ? "border-rose-gold bg-background shadow-soft" : "border-border bg-background/60 hover:bg-background"
+                            active
+                              ? "border-rose-gold bg-background shadow-soft"
+                              : "border-border bg-background/60 hover:bg-background"
                           }`}
                         >
                           <div className="aspect-square rounded-xl overflow-hidden bg-cream mb-2">
-                            <img src={f.image} alt={f.name} className="w-full h-full object-cover" />
+                            <img
+                              src={f.image}
+                              alt={f.name}
+                              className="w-full h-full object-cover"
+                            />
                           </div>
                           <div className="font-display text-sm">{f.name}</div>
-                          <div className="text-[10px] text-muted-foreground">{f.price} ج.م / زهرة</div>
+                          <div className="text-[10px] text-muted-foreground">
+                            {f.price} ج.م / زهرة
+                          </div>
                         </button>
                       );
                     })}
@@ -663,9 +786,17 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
                 <Section title="حدد الكمية لكل نوع">
                   <div className="space-y-3">
                     {FLOWERS.map((f) => (
-                      <div key={f.key} className="flex items-center justify-between p-4 rounded-2xl bg-background border border-border">
+                      <div
+                        key={f.key}
+                        className="flex items-center justify-between p-4 rounded-2xl bg-background border border-border"
+                      >
                         <div className="flex items-center gap-3">
-                          <span className="w-10 h-10 rounded-full grid place-items-center text-lg" style={{ background: `${f.hex}33` }}>{f.emoji}</span>
+                          <span
+                            className="w-10 h-10 rounded-full grid place-items-center text-lg"
+                            style={{ background: `${f.hex}33` }}
+                          >
+                            {f.emoji}
+                          </span>
                           <div>
                             <div className="font-display">{f.name}</div>
                             <div className="text-xs text-muted-foreground">{f.price} ج.م</div>
@@ -685,7 +816,11 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
                 <Section title="حجم الباقة">
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {SIZES.map((s) => (
-                      <PickCard key={s.key} active={design.size === s.key} onClick={() => update({ size: s.key })}>
+                      <PickCard
+                        key={s.key}
+                        active={design.size === s.key}
+                        onClick={() => update({ size: s.key })}
+                      >
                         <div className="font-display">{s.name}</div>
                         <div className="text-xs text-muted-foreground mt-1">×{s.mult}</div>
                       </PickCard>
@@ -698,8 +833,15 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
                 <Section title="نوع التغليف">
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {WRAPS.map((w) => (
-                      <PickCard key={w.key} active={design.wrap === w.key} onClick={() => update({ wrap: w.key })}>
-                        <span className="w-10 h-10 rounded-full mx-auto mb-2 block border border-border" style={{ background: w.hex }} />
+                      <PickCard
+                        key={w.key}
+                        active={design.wrap === w.key}
+                        onClick={() => update({ wrap: w.key })}
+                      >
+                        <span
+                          className="w-10 h-10 rounded-full mx-auto mb-2 block border border-border"
+                          style={{ background: w.hex }}
+                        />
                         <div className="font-display text-sm">{w.name}</div>
                         <div className="text-xs text-muted-foreground">+{w.price} ج.م</div>
                       </PickCard>
@@ -714,8 +856,15 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
                     {RIBBONS.map((r) => {
                       const active = design.ribbon === r.key;
                       return (
-                        <button key={r.key} onClick={() => update({ ribbon: r.key })} className="flex flex-col items-center gap-2">
-                          <span className={`w-14 h-14 rounded-full border-2 transition-all ${active ? "border-rose-gold scale-110" : "border-transparent"}`} style={{ background: r.hex }} />
+                        <button
+                          key={r.key}
+                          onClick={() => update({ ribbon: r.key })}
+                          className="flex flex-col items-center gap-2"
+                        >
+                          <span
+                            className={`w-14 h-14 rounded-full border-2 transition-all ${active ? "border-rose-gold scale-110" : "border-transparent"}`}
+                            style={{ background: r.hex }}
+                          />
                           <span className="text-xs">{r.name}</span>
                         </button>
                       );
@@ -728,8 +877,11 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
                 <Section title="بطاقة الإهداء">
                   <div className="flex flex-wrap gap-2 mb-4">
                     {CARDS.map((c) => (
-                      <button key={c} onClick={() => update({ card: c })}
-                        className={`px-4 py-2 rounded-full text-sm border transition ${design.card === c ? "bg-charcoal text-primary-foreground border-charcoal" : "bg-background border-border hover:border-rose-gold"}`}>
+                      <button
+                        key={c}
+                        onClick={() => update({ card: c })}
+                        className={`px-4 py-2 rounded-full text-sm border transition ${design.card === c ? "bg-charcoal text-primary-foreground border-charcoal" : "bg-background border-border hover:border-rose-gold"}`}
+                      >
                         {c}
                       </button>
                     ))}
@@ -749,7 +901,17 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
                     {EXTRAS.map((e) => {
                       const active = design.extras.includes(e.key);
                       return (
-                        <PickCard key={e.key} active={active} onClick={() => update({ extras: active ? design.extras.filter((x) => x !== e.key) : [...design.extras, e.key] })}>
+                        <PickCard
+                          key={e.key}
+                          active={active}
+                          onClick={() =>
+                            update({
+                              extras: active
+                                ? design.extras.filter((x) => x !== e.key)
+                                : [...design.extras, e.key],
+                            })
+                          }
+                        >
                           <div className="text-2xl">{e.emoji}</div>
                           <div className="font-display text-sm mt-1">{e.name}</div>
                           <div className="text-xs text-muted-foreground">+{e.price} ج.م</div>
@@ -764,9 +926,15 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
                 <Section title="المزهرية">
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {VASES.map((v) => (
-                      <PickCard key={v.key} active={design.vase === v.key} onClick={() => update({ vase: v.key })}>
+                      <PickCard
+                        key={v.key}
+                        active={design.vase === v.key}
+                        onClick={() => update({ vase: v.key })}
+                      >
                         <div className="font-display text-sm">{v.name}</div>
-                        <div className="text-xs text-muted-foreground mt-1">{v.price ? `+${v.price} ج.م` : "مجاناً"}</div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          {v.price ? `+${v.price} ج.م` : "مجاناً"}
+                        </div>
                       </PickCard>
                     ))}
                   </div>
@@ -776,13 +944,29 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
               {step === 8 && (
                 <Section title="تفاصيل التوصيل">
                   <div className="grid gap-3">
-                    <Input label="اسم المستلم" value={design.recipient} onChange={(v) => update({ recipient: v })} />
+                    <Input
+                      label="اسم المستلم"
+                      value={design.recipient}
+                      onChange={(v) => update({ recipient: v })}
+                    />
                     <div className="grid grid-cols-2 gap-3">
-                      <Input label="تاريخ التوصيل" type="date" value={design.date} onChange={(v) => update({ date: v })} />
-                      <Input label="وقت التوصيل" type="time" value={design.time} onChange={(v) => update({ time: v })} />
+                      <Input
+                        label="تاريخ التوصيل"
+                        type="date"
+                        value={design.date}
+                        onChange={(v) => update({ date: v })}
+                      />
+                      <Input
+                        label="وقت التوصيل"
+                        type="time"
+                        value={design.time}
+                        onChange={(v) => update({ time: v })}
+                      />
                     </div>
                     <div>
-                      <label className="text-xs text-muted-foreground mb-1 block">ملاحظات خاصة</label>
+                      <label className="text-xs text-muted-foreground mb-1 block">
+                        ملاحظات خاصة
+                      </label>
                       <textarea
                         value={design.notes}
                         onChange={(e) => update({ notes: e.target.value })}
@@ -799,12 +983,16 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
                 onClick={() => setStep(Math.max(0, step - 1))}
                 disabled={step === 0}
                 className="btn-ghost-luxe disabled:opacity-30 disabled:pointer-events-none"
-              >السابق</button>
+              >
+                السابق
+              </button>
               <button
                 onClick={() => setStep(Math.min(SECTIONS.length - 1, step + 1))}
                 disabled={step === SECTIONS.length - 1}
                 className="btn-luxe disabled:opacity-40 disabled:pointer-events-none"
-              >التالي</button>
+              >
+                التالي
+              </button>
             </div>
           </div>
 
@@ -832,17 +1020,24 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
                 <Row label="التغليف" value={wrap.name} />
                 <Row label="الشريط" value={ribbon.name} />
                 <Row label="بطاقة" value={design.card} />
-                <Row label="إضافات" value={design.extras.length ? `${design.extras.length} عنصر` : "—"} />
+                <Row
+                  label="إضافات"
+                  value={design.extras.length ? `${design.extras.length} عنصر` : "—"}
+                />
                 <Row label="التوصيل المتوقع" value={design.date || "قريباً"} />
               </div>
               <div className="mt-5 pt-5 border-t border-border space-y-2 text-sm">
                 <Row label="المجموع الفرعي" value={`${totals.subtotal} ج.م`} />
                 <Row label="التوصيل" value={totals.delivery ? `${totals.delivery} ج.م` : "مجاني"} />
-                {totals.discount > 0 && <Row label="خصم" value={`- ${totals.discount} ج.م`} accent />}
+                {totals.discount > 0 && (
+                  <Row label="خصم" value={`- ${totals.discount} ج.م`} accent />
+                )}
                 <Row label="الضريبة" value={`${totals.tax} ج.م`} />
                 <div className="flex items-center justify-between pt-3 border-t border-border mt-3">
                   <span className="font-display">الإجمالي</span>
-                  <span className="font-display text-2xl">{totals.total} <span className="text-xs text-muted-foreground">ج.م</span></span>
+                  <span className="font-display text-2xl">
+                    {totals.total} <span className="text-xs text-muted-foreground">ج.م</span>
+                  </span>
                 </div>
               </div>
               <div className="mt-5 grid grid-cols-2 gap-2">
@@ -877,7 +1072,9 @@ function StepNav({ step, setStep }: { step: number; setStep: (n: number) => void
           key={s}
           onClick={() => setStep(i)}
           className={`shrink-0 px-4 py-2 rounded-full text-xs border transition ${
-            step === i ? "bg-charcoal text-primary-foreground border-charcoal" : "bg-background border-border hover:border-rose-gold"
+            step === i
+              ? "bg-charcoal text-primary-foreground border-charcoal"
+              : "bg-background border-border hover:border-rose-gold"
           }`}
         >
           {i + 1}. {s}
@@ -899,24 +1096,42 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Counter({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   return (
     <div className="flex items-center gap-2">
-      <button onClick={() => onChange(Math.max(0, value - 1))} className="w-8 h-8 rounded-full border border-border grid place-items-center hover:border-rose-gold transition" aria-label="نقص">
+      <button
+        onClick={() => onChange(Math.max(0, value - 1))}
+        className="w-8 h-8 rounded-full border border-border grid place-items-center hover:border-rose-gold transition"
+        aria-label="نقص"
+      >
         <Minus className="w-3.5 h-3.5" />
       </button>
       <span className="w-8 text-center font-display">{value}</span>
-      <button onClick={() => onChange(value + 1)} className="w-8 h-8 rounded-full border border-border grid place-items-center hover:border-rose-gold transition" aria-label="إضافة">
+      <button
+        onClick={() => onChange(value + 1)}
+        className="w-8 h-8 rounded-full border border-border grid place-items-center hover:border-rose-gold transition"
+        aria-label="إضافة"
+      >
         <Plus className="w-3.5 h-3.5" />
       </button>
     </div>
   );
 }
 
-function PickCard({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+function PickCard({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
   return (
     <button
       onClick={onClick}
       aria-pressed={active}
       className={`relative p-4 rounded-2xl border transition-all text-center ${
-        active ? "border-rose-gold bg-background shadow-soft -translate-y-0.5" : "border-border bg-background/60 hover:bg-background hover:-translate-y-0.5"
+        active
+          ? "border-rose-gold bg-background shadow-soft -translate-y-0.5"
+          : "border-border bg-background/60 hover:bg-background hover:-translate-y-0.5"
       }`}
     >
       {active && (
@@ -929,15 +1144,37 @@ function PickCard({ active, onClick, children }: { active: boolean; onClick: () 
   );
 }
 
-function IconBtn({ children, label, onClick }: { children: React.ReactNode; label: string; onClick: () => void }) {
+function IconBtn({
+  children,
+  label,
+  onClick,
+}: {
+  children: React.ReactNode;
+  label: string;
+  onClick: () => void;
+}) {
   return (
-    <button onClick={onClick} aria-label={label} className="w-10 h-10 grid place-items-center rounded-full border border-border hover:border-rose-gold transition">
+    <button
+      onClick={onClick}
+      aria-label={label}
+      className="w-10 h-10 grid place-items-center rounded-full border border-border hover:border-rose-gold transition"
+    >
       {children}
     </button>
   );
 }
 
-function Input({ label, value, onChange, type = "text" }: { label: string; value: string; onChange: (v: string) => void; type?: string }) {
+function Input({
+  label,
+  value,
+  onChange,
+  type = "text",
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+}) {
   return (
     <div>
       <label className="text-xs text-muted-foreground mb-1 block">{label}</label>
@@ -976,7 +1213,11 @@ function Confetti() {
             key={i}
             className="absolute rounded-sm"
             style={{
-              left: `${left}%`, top: "-10px", width: size, height: size, background: bg,
+              left: `${left}%`,
+              top: "-10px",
+              width: size,
+              height: size,
+              background: bg,
               animation: `confetti-fall ${dur}s ${delay}s ease-in forwards`,
             }}
           />

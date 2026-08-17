@@ -3,14 +3,22 @@ import { Layout } from "@/components/site/Layout";
 import { ProductCard } from "@/components/site/ProductCard";
 import { products as localProducts } from "@/lib/shop-data";
 import { productsApi } from "@/lib/api";
-import { SlidersHorizontal, Grid2X2, LayoutGrid, X, ChevronLeft, ChevronRight, RefreshCw } from "lucide-react";
+import {
+  SlidersHorizontal,
+  Grid2X2,
+  LayoutGrid,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  RefreshCw,
+} from "lucide-react";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { ShopGridSkeleton } from "@/components/ui/Skeletons";
 import { z } from "zod";
 import type { Product } from "@/lib/shop-data";
 
 const shopSearchSchema = z.object({
-  q:    z.string().optional(),
+  q: z.string().optional(),
   page: z.number().optional().default(1),
 });
 
@@ -19,7 +27,10 @@ export const Route = createFileRoute("/shop")({
   head: () => ({
     meta: [
       { title: "المتجر — YasRose" },
-      { name: "description", content: "استعرض مجموعتنا الكاملة من الباقات الفاخرة والعلب الحصرية." },
+      {
+        name: "description",
+        content: "استعرض مجموعتنا الكاملة من الباقات الفاخرة والعلب الحصرية.",
+      },
       { property: "og:title", content: "المتجر — YasRose" },
       { property: "og:description", content: "باقات فاخرة، تنسيق يدوي." },
     ],
@@ -30,21 +41,21 @@ export const Route = createFileRoute("/shop")({
 const PAGE_SIZE = 12;
 
 const PRICE_RANGES = [
-  { label: "أقل من ٣٠٠", min: 0,   max: 299 },
-  { label: "٣٠٠ - ٥٠٠",  min: 300, max: 500 },
-  { label: "٥٠٠ - ٨٠٠",  min: 501, max: 800 },
-  { label: "+ ٨٠٠",       min: 801, max: Infinity },
+  { label: "أقل من ٣٠٠", min: 0, max: 299 },
+  { label: "٣٠٠ - ٥٠٠", min: 300, max: 500 },
+  { label: "٥٠٠ - ٨٠٠", min: 501, max: 800 },
+  { label: "+ ٨٠٠", min: 801, max: Infinity },
 ];
 
-const CATEGORIES  = [...new Set(localProducts.map((p) => p.category))];
-const OCCASIONS   = [...new Set(localProducts.flatMap((p) => p.occasion))];
+const CATEGORIES = [...new Set(localProducts.map((p) => p.category))];
+const OCCASIONS = [...new Set(localProducts.flatMap((p) => p.occasion))];
 const STATUS_OPTS = ["الأكثر مبيعاً", "وصل حديثاً"];
 
 type SortKey = "newest" | "price-asc" | "price-desc" | "bestseller";
 
 // Merge API products with local products, avoiding duplicates
 function mergeProducts(local: Product[], apiRaw: unknown[]): Product[] {
-  const localSlugs = new Set(local.map(p => p.slug));
+  const localSlugs = new Set(local.map((p) => p.slug));
   const apiProducts: Product[] = apiRaw
     .filter((item: unknown) => {
       const p = item as { slug?: string };
@@ -63,8 +74,10 @@ function mergeProducts(local: Product[], apiRaw: unknown[]): Product[] {
         gallery: Array.isArray(p.gallery) ? p.gallery.map(String) : [],
         rating: Number(p.rating ?? 4.8),
         reviews: Number(p.reviews ?? 0),
-        colors: Array.isArray(p.colors) ? p.colors as Product["colors"] : [],
-        sizes: Array.isArray(p.sizes) ? p.sizes as Product["sizes"] : [{ name: "قياسي", extra: 0 }],
+        colors: Array.isArray(p.colors) ? (p.colors as Product["colors"]) : [],
+        sizes: Array.isArray(p.sizes)
+          ? (p.sizes as Product["sizes"])
+          : [{ name: "قياسي", extra: 0 }],
         meaning: String(p.meaning ?? ""),
         description: String(p.description ?? ""),
         category: String(p.category ?? ""),
@@ -81,21 +94,24 @@ function Shop() {
   const { q, page: currentPage } = Route.useSearch();
   const navigate = useNavigate({ from: "/shop" });
 
-  const [dense, setDense]         = useState(false);
-  const [sort, setSort]           = useState<SortKey>("newest");
-  const [prices, setPrices]       = useState<string[]>([]);
-  const [cats, setCats]           = useState<string[]>([]);
+  const [dense, setDense] = useState(false);
+  const [sort, setSort] = useState<SortKey>("newest");
+  const [prices, setPrices] = useState<string[]>([]);
+  const [cats, setCats] = useState<string[]>([]);
   const [occasions, setOccasions] = useState<string[]>([]);
-  const [statuses, setStatuses]   = useState<string[]>([]);
+  const [statuses, setStatuses] = useState<string[]>([]);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   // API state
   const [apiProducts, setApiProducts] = useState<unknown[]>([]);
-  const [apiLoading, setApiLoading]   = useState(true);
-  const [apiError, setApiError]       = useState(false);
-  const [apiTotal, setApiTotal]       = useState<number | null>(null);
+  const [apiLoading, setApiLoading] = useState(true);
+  const [apiError, setApiError] = useState(false);
+  const [apiTotal, setApiTotal] = useState<number | null>(null);
 
   const [localQ, setLocalQ] = useState(q ?? "");
-  useEffect(() => { setLocalQ(q ?? ""); }, [q]);
+  useEffect(() => {
+    setLocalQ(q ?? "");
+  }, [q]);
 
   // Fetch products from API
   const fetchFromApi = useCallback(async () => {
@@ -114,7 +130,9 @@ function Shop() {
     }
   }, []);
 
-  useEffect(() => { fetchFromApi(); }, [fetchFromApi]);
+  useEffect(() => {
+    fetchFromApi();
+  }, [fetchFromApi]);
 
   // All products merged
   const allProducts = useMemo(() => mergeProducts(localProducts, apiProducts), [apiProducts]);
@@ -122,10 +140,14 @@ function Shop() {
   const toggle = (arr: string[], set: (v: string[]) => void, val: string) =>
     set(arr.includes(val) ? arr.filter((v) => v !== val) : [...arr, val]);
 
-  const activeCount = prices.length + cats.length + occasions.length + statuses.length + (localQ ? 1 : 0);
+  const activeCount =
+    prices.length + cats.length + occasions.length + statuses.length + (localQ ? 1 : 0);
 
   const clearAll = () => {
-    setPrices([]); setCats([]); setOccasions([]); setStatuses([]);
+    setPrices([]);
+    setCats([]);
+    setOccasions([]);
+    setStatuses([]);
     navigate({ search: { q: undefined, page: 1 } });
   };
 
@@ -150,7 +172,7 @@ function Shop() {
         }),
       );
     }
-    if (cats.length)      list = list.filter((p) => cats.includes(p.category));
+    if (cats.length) list = list.filter((p) => cats.includes(p.category));
     if (occasions.length) list = list.filter((p) => p.occasion.some((o) => occasions.includes(o)));
     if (statuses.length) {
       list = list.filter(
@@ -161,19 +183,26 @@ function Shop() {
     }
 
     switch (sort) {
-      case "price-asc":  return list.sort((a, b) => a.price - b.price);
-      case "price-desc": return list.sort((a, b) => b.price - a.price);
-      case "bestseller": return list.sort((a, b) => (b.bestSeller ? 1 : 0) - (a.bestSeller ? 1 : 0));
-      default:           return list;
+      case "price-asc":
+        return list.sort((a, b) => a.price - b.price);
+      case "price-desc":
+        return list.sort((a, b) => b.price - a.price);
+      case "bestseller":
+        return list.sort((a, b) => (b.bestSeller ? 1 : 0) - (a.bestSeller ? 1 : 0));
+      default:
+        return list;
     }
   }, [allProducts, localQ, prices, cats, occasions, statuses, sort]);
 
-  const totalPages  = Math.max(1, Math.ceil(allFiltered.length / PAGE_SIZE));
-  const safePage    = Math.min(Math.max(currentPage ?? 1, 1), totalPages);
-  const paginated   = allFiltered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+  const totalPages = Math.max(1, Math.ceil(allFiltered.length / PAGE_SIZE));
+  const safePage = Math.min(Math.max(currentPage ?? 1, 1), totalPages);
+  const paginated = allFiltered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
 
   const goPage = (p: number) =>
-    navigate({ search: (prev: Record<string, unknown>) => ({ ...prev, page: p }), resetScroll: true });
+    navigate({
+      search: (prev: Record<string, unknown>) => ({ ...prev, page: p }),
+      resetScroll: true,
+    });
 
   useEffect(() => {
     navigate({ search: (prev: Record<string, unknown>) => ({ ...prev, page: 1 }) });
@@ -190,8 +219,8 @@ function Shop() {
             <div className="mt-4 flex items-center gap-3 flex-wrap">
               <p className="text-muted-foreground max-w-md">
                 {allFiltered.length} تصميم
-                {activeCount > 0 && <span className="text-rose-gold"> (بعد الفلترة)</span>}
-                {" "}مُنسّق يدوياً
+                {activeCount > 0 && <span className="text-rose-gold"> (بعد الفلترة)</span>} مُنسّق
+                يدوياً
                 {apiTotal !== null && apiProducts.length > 0 && (
                   <span className="text-muted-foreground/60"> · {apiTotal} متاح في المخزون</span>
                 )}
@@ -251,9 +280,130 @@ function Shop() {
           </div>
         </div>
 
+        {/* Mobile filter toggle */}
+        <div className="lg:hidden flex items-center justify-between py-4 border-b border-border mb-2">
+          <button
+            onClick={() => setFilterOpen(true)}
+            className="flex items-center gap-2 text-sm border border-border rounded-full px-4 py-2 hover:border-rose-gold transition"
+          >
+            <SlidersHorizontal className="w-4 h-4" />
+            تصفية
+            {activeCount > 0 && (
+              <span className="w-5 h-5 rounded-full bg-rose-gold text-white text-[10px] grid place-items-center">
+                {activeCount}
+              </span>
+            )}
+          </button>
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-muted-foreground">ترتيب:</span>
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortKey)}
+              className="bg-transparent border-b border-border py-1 outline-none focus:border-rose-gold text-sm"
+            >
+              <option value="newest">الأحدث</option>
+              <option value="price-desc">الأعلى سعراً</option>
+              <option value="price-asc">الأقل سعراً</option>
+              <option value="bestseller">الأكثر مبيعاً</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Mobile filter drawer */}
+        {filterOpen && (
+          <div className="fixed inset-0 z-50 lg:hidden flex">
+            <div className="absolute inset-0 bg-black/40" onClick={() => setFilterOpen(false)} />
+            <div className="relative mr-auto w-[85vw] max-w-sm h-full bg-background overflow-y-auto shadow-2xl flex flex-col">
+              <div className="flex items-center justify-between p-5 border-b border-border sticky top-0 bg-background z-10">
+                <div className="flex items-center gap-2">
+                  <SlidersHorizontal className="w-4 h-4" />
+                  <span className="font-display text-lg">التصفية</span>
+                  {activeCount > 0 && (
+                    <span className="w-5 h-5 rounded-full bg-rose-gold text-white text-[10px] grid place-items-center">
+                      {activeCount}
+                    </span>
+                  )}
+                </div>
+                <button
+                  onClick={() => setFilterOpen(false)}
+                  className="p-2 hover:bg-muted rounded-full transition"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="p-5 space-y-6 flex-1">
+                <div>
+                  <div className="font-display text-sm mb-3">بحث</div>
+                  <input
+                    type="search"
+                    value={localQ}
+                    placeholder="اسم الباقة أو المناسبة..."
+                    onChange={(e) => {
+                      setLocalQ(e.target.value);
+                      navigate({
+                        search: (prev: Record<string, unknown>) => ({
+                          ...prev,
+                          q: e.target.value || undefined,
+                        }),
+                      });
+                    }}
+                    className="w-full h-10 px-4 rounded-xl border border-border bg-transparent outline-none focus:border-rose-gold transition text-sm"
+                  />
+                </div>
+                <FilterGroup
+                  title="السعر"
+                  opts={PRICE_RANGES.map((r) => r.label)}
+                  selected={prices}
+                  onToggle={(v) => toggle(prices, setPrices, v)}
+                />
+                <FilterGroup
+                  title="نوع الزهرة"
+                  opts={CATEGORIES}
+                  selected={cats}
+                  onToggle={(v) => toggle(cats, setCats, v)}
+                />
+                <FilterGroup
+                  title="المناسبة"
+                  opts={OCCASIONS}
+                  selected={occasions}
+                  onToggle={(v) => toggle(occasions, setOccasions, v)}
+                />
+                <FilterGroup
+                  title="الحالة"
+                  opts={STATUS_OPTS}
+                  selected={statuses}
+                  onToggle={(v) => toggle(statuses, setStatuses, v)}
+                />
+              </div>
+              <div className="p-5 border-t border-border flex gap-3 sticky bottom-0 bg-background">
+                {activeCount > 0 && (
+                  <button
+                    onClick={() => {
+                      clearAll();
+                      setFilterOpen(false);
+                    }}
+                    className="flex-1 rounded-full border border-border py-3 text-sm hover:border-rose-gold transition"
+                  >
+                    مسح الكل
+                  </button>
+                )}
+                <button
+                  onClick={() => setFilterOpen(false)}
+                  className="flex-1 rounded-full bg-charcoal text-primary-foreground py-3 text-sm"
+                >
+                  عرض النتائج ({allFiltered.length})
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="grid lg:grid-cols-[280px_1fr] gap-12 py-12">
-          {/* Sidebar */}
-          <aside className="lg:sticky lg:top-28 self-start space-y-8" aria-label="الفلاتر">
+          {/* Desktop Sidebar */}
+          <aside
+            className="hidden lg:block lg:sticky lg:top-28 self-start space-y-8"
+            aria-label="الفلاتر"
+          >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-sm">
                 <SlidersHorizontal className="w-4 h-4" aria-hidden />
@@ -278,16 +428,41 @@ function Shop() {
                 aria-label="بحث في المتجر"
                 onChange={(e) => {
                   setLocalQ(e.target.value);
-                  navigate({ search: (prev: Record<string, unknown>) => ({ ...prev, q: e.target.value || undefined }) });
+                  navigate({
+                    search: (prev: Record<string, unknown>) => ({
+                      ...prev,
+                      q: e.target.value || undefined,
+                    }),
+                  });
                 }}
                 className="w-full h-10 px-4 rounded-xl border border-border bg-transparent outline-none focus:border-rose-gold transition text-sm"
               />
             </div>
 
-            <FilterGroup title="السعر"      opts={PRICE_RANGES.map((r) => r.label)} selected={prices}   onToggle={(v) => toggle(prices, setPrices, v)} />
-            <FilterGroup title="نوع الزهرة" opts={CATEGORIES}                        selected={cats}     onToggle={(v) => toggle(cats, setCats, v)} />
-            <FilterGroup title="المناسبة"   opts={OCCASIONS}                         selected={occasions} onToggle={(v) => toggle(occasions, setOccasions, v)} />
-            <FilterGroup title="الحالة"     opts={STATUS_OPTS}                       selected={statuses} onToggle={(v) => toggle(statuses, setStatuses, v)} />
+            <FilterGroup
+              title="السعر"
+              opts={PRICE_RANGES.map((r) => r.label)}
+              selected={prices}
+              onToggle={(v) => toggle(prices, setPrices, v)}
+            />
+            <FilterGroup
+              title="نوع الزهرة"
+              opts={CATEGORIES}
+              selected={cats}
+              onToggle={(v) => toggle(cats, setCats, v)}
+            />
+            <FilterGroup
+              title="المناسبة"
+              opts={OCCASIONS}
+              selected={occasions}
+              onToggle={(v) => toggle(occasions, setOccasions, v)}
+            />
+            <FilterGroup
+              title="الحالة"
+              opts={STATUS_OPTS}
+              selected={statuses}
+              onToggle={(v) => toggle(statuses, setStatuses, v)}
+            />
           </aside>
 
           {/* Products */}
@@ -297,8 +472,12 @@ function Shop() {
             ) : paginated.length === 0 ? (
               <div className="text-center py-32">
                 <div className="font-display text-2xl mb-3">لا توجد نتائج</div>
-                <p className="text-muted-foreground mb-6">جرب تعديل الفلاتر للحصول على نتائج أوسع.</p>
-                <button onClick={clearAll} className="btn-ghost-luxe">مسح الفلاتر</button>
+                <p className="text-muted-foreground mb-6">
+                  جرب تعديل الفلاتر للحصول على نتائج أوسع.
+                </p>
+                <button onClick={clearAll} className="btn-ghost-luxe">
+                  مسح الفلاتر
+                </button>
               </div>
             ) : (
               <>
@@ -392,7 +571,11 @@ function FilterGroup({
               className="accent-rose-gold"
               aria-label={o}
             />
-            <span className={selected.includes(o) ? "text-foreground font-medium" : "text-muted-foreground"}>
+            <span
+              className={
+                selected.includes(o) ? "text-foreground font-medium" : "text-muted-foreground"
+              }
+            >
               {o}
             </span>
           </label>

@@ -4,10 +4,7 @@ import { CheckCircle2, Package, Phone } from "lucide-react";
 
 export const Route = createFileRoute("/order-success")({
   head: () => ({
-    meta: [
-      { title: "تم تأكيد طلبك — YasRose" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "تم تأكيد طلبك — YasRose" }, { name: "robots", content: "noindex" }],
   }),
   component: OrderSuccess,
 });
@@ -26,9 +23,7 @@ function OrderSuccess() {
           </div>
 
           <div className="eyebrow mb-4">تم بنجاح</div>
-          <h1 className="font-display text-5xl md:text-6xl leading-tight">
-            طلبك في أيدٍ أمينة
-          </h1>
+          <h1 className="font-display text-5xl md:text-6xl leading-tight">طلبك في أيدٍ أمينة</h1>
           <p className="mt-6 text-muted-foreground leading-loose max-w-md mx-auto">
             استلمنا طلبك وبدأ فريق الأتلييه في تنسيق باقتك يدوياً. ستصلك رسالة تأكيد قريباً.
           </p>
@@ -42,9 +37,9 @@ function OrderSuccess() {
           {/* Steps */}
           <div className="mt-14 grid sm:grid-cols-3 gap-6 text-right">
             {[
-              { icon: CheckCircle2, title: "تم الاستلام",     desc: "وصل طلبك إلى فريق الدار" },
-              { icon: Package,      title: "قيد التنسيق",     desc: "يتم تجهيز باقتك يدوياً الآن" },
-              { icon: Phone,        title: "سنتصل بك",        desc: "تأكيد الموعد قبل التوصيل" },
+              { icon: CheckCircle2, title: "تم الاستلام", desc: "وصل طلبك إلى فريق الدار" },
+              { icon: Package, title: "قيد التنسيق", desc: "يتم تجهيز باقتك يدوياً الآن" },
+              { icon: Phone, title: "سنتصل بك", desc: "تأكيد الموعد قبل التوصيل" },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="p-6 rounded-2xl bg-cream border border-border">
                 <div className="w-10 h-10 rounded-full bg-blush grid place-items-center mb-4">

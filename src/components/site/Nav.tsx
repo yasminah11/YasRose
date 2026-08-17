@@ -17,37 +17,39 @@ const links = [
 ];
 
 const announcements = [
-  { icon: Truck,    text: "توصيل مجاني على الطلبات فوق ٥٠٠ ج.م" },
+  { icon: Truck, text: "توصيل مجاني على الطلبات فوق ٥٠٠ ج.م" },
   { icon: Sparkles, text: "مجموعة ربيع ٢٠٢٦ متاحة الآن — محدود" },
-  { icon: Truck,    text: "توصيل في نفس اليوم داخل بني سويف" },
+  { icon: Truck, text: "توصيل في نفس اليوم داخل بني سويف" },
 ];
 
 function AnnouncementBar() {
   const [idx, setIdx] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setIdx(i => (i + 1) % announcements.length), 4000);
+    const t = setInterval(() => setIdx((i) => (i + 1) % announcements.length), 4000);
     return () => clearInterval(t);
   }, []);
   const a = announcements[idx];
   return (
     <div className="bg-charcoal text-primary-foreground text-center py-2.5 text-xs tracking-[0.15em] flex items-center justify-center gap-2 transition-all">
       <a.icon className="w-3.5 h-3.5 text-rose-gold shrink-0" />
-      <span key={idx} className="animate-fade-in-up inline-block">{a.text}</span>
+      <span key={idx} className="animate-fade-in-up inline-block">
+        {a.text}
+      </span>
     </div>
   );
 }
 
 export function Nav({ transparent = false }: { transparent?: boolean }) {
-  const [scrolled, setScrolled]     = useState(false);
-  const [open, setOpen]             = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [query, setQuery]           = useState("");
-  const searchRef                   = useRef<HTMLInputElement>(null);
-  const navigate                    = useNavigate();
+  const [query, setQuery] = useState("");
+  const searchRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const { count: cartCount } = useCart();
-  const { count: wishCount }  = useWishlist();
-  const { isLoggedIn }        = useAuth();
+  const { count: wishCount } = useWishlist();
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 24);
@@ -66,13 +68,15 @@ export function Nav({ transparent = false }: { transparent?: boolean }) {
   const searchResults = useMemo(() => {
     if (!query.trim()) return [];
     const q = query.toLowerCase();
-    return products.filter(
-      (p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.tagline.toLowerCase().includes(q) ||
-        p.category.toLowerCase().includes(q) ||
-        p.occasion.some((o) => o.includes(q))
-    ).slice(0, 5);
+    return products
+      .filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.tagline.toLowerCase().includes(q) ||
+          p.category.toLowerCase().includes(q) ||
+          p.occasion.some((o) => o.includes(q)),
+      )
+      .slice(0, 5);
   }, [query]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -95,10 +99,15 @@ export function Nav({ transparent = false }: { transparent?: boolean }) {
       <AnnouncementBar />
       <header
         className={`sticky top-0 inset-x-0 z-50 transition-all duration-500 ${
-          solid ? "bg-background/90 backdrop-blur-xl border-b border-border/60 shadow-soft/30" : "bg-transparent"
+          solid
+            ? "bg-background/90 backdrop-blur-xl border-b border-border/60 shadow-soft/30"
+            : "bg-transparent"
         }`}
       >
-        <div className="container-luxe flex items-center justify-between h-18" style={{ height: "4.5rem" }}>
+        <div
+          className="container-luxe flex items-center justify-between h-18"
+          style={{ height: "4.5rem" }}
+        >
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
             <span className="w-9 h-9 rounded-full bg-gradient-to-br from-blush to-rose-gold grid place-items-center text-charcoal font-display text-lg shadow-soft transition-transform duration-500 group-hover:rotate-[20deg]">
@@ -114,7 +123,7 @@ export function Nav({ transparent = false }: { transparent?: boolean }) {
 
           {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-6" aria-label="التنقل الرئيسي">
-            {links.map((l) => (
+            {links.map((l) =>
               l.highlight ? (
                 <Link
                   key={l.to}
@@ -134,22 +143,26 @@ export function Nav({ transparent = false }: { transparent?: boolean }) {
                 >
                   {l.label}
                 </Link>
-              )
-            ))}
+              ),
+            )}
           </nav>
 
           {/* Actions */}
           <div className="flex items-center gap-0.5">
             <button
               aria-label="بحث"
-              onClick={() => setSearchOpen(s => !s)}
+              onClick={() => setSearchOpen((s) => !s)}
               className="p-2.5 hover:bg-muted rounded-full transition"
             >
               <Search className="w-[18px] h-[18px]" />
             </button>
 
             {/* Wishlist with real count */}
-            <Link to="/wishlist" aria-label="المفضلة" className="p-2.5 hover:bg-muted rounded-full transition hidden sm:inline-flex relative">
+            <Link
+              to="/wishlist"
+              aria-label="المفضلة"
+              className="p-2.5 hover:bg-muted rounded-full transition inline-flex relative"
+            >
               <Heart className="w-[18px] h-[18px]" />
               {wishCount > 0 && (
                 <span className="absolute -top-0.5 -left-0.5 w-4 h-4 rounded-full bg-rose-gold text-white text-[10px] grid place-items-center font-medium">
@@ -162,13 +175,17 @@ export function Nav({ transparent = false }: { transparent?: boolean }) {
             <Link
               to={isLoggedIn ? "/profile" : "/login"}
               aria-label="حسابي"
-              className="p-2.5 hover:bg-muted rounded-full transition hidden sm:inline-flex"
+              className="p-2.5 hover:bg-muted rounded-full transition inline-flex"
             >
               <User className={`w-[18px] h-[18px] ${isLoggedIn ? "text-rose-gold" : ""}`} />
             </Link>
 
             {/* Cart with real count */}
-            <Link to="/cart" aria-label="السلة" className="p-2.5 hover:bg-muted rounded-full transition relative">
+            <Link
+              to="/cart"
+              aria-label="السلة"
+              className="p-2.5 hover:bg-muted rounded-full transition relative"
+            >
               <ShoppingBag className="w-[18px] h-[18px]" />
               {cartCount > 0 && (
                 <span className="absolute -top-0.5 -left-0.5 w-4 h-4 rounded-full bg-rose-gold text-white text-[10px] grid place-items-center font-medium">
@@ -193,7 +210,12 @@ export function Nav({ transparent = false }: { transparent?: boolean }) {
         {searchOpen && (
           <div className="border-t border-border/60 bg-background/95 backdrop-blur-xl animate-reveal">
             <div className="container-luxe py-4">
-              <form onSubmit={handleSearchSubmit} className="relative max-w-xl mx-auto" role="search" aria-label="البحث في المتجر">
+              <form
+                onSubmit={handleSearchSubmit}
+                className="relative max-w-xl mx-auto"
+                role="search"
+                aria-label="البحث في المتجر"
+              >
                 <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   ref={searchRef}
@@ -206,7 +228,10 @@ export function Nav({ transparent = false }: { transparent?: boolean }) {
                 />
                 <button
                   type="button"
-                  onClick={() => { setSearchOpen(false); setQuery(""); }}
+                  onClick={() => {
+                    setSearchOpen(false);
+                    setQuery("");
+                  }}
                   className="absolute left-3 top-1/2 -translate-y-1/2 p-1 hover:text-rose-gold transition"
                 >
                   <X className="w-4 h-4" />
@@ -215,17 +240,27 @@ export function Nav({ transparent = false }: { transparent?: boolean }) {
 
               {/* Live results */}
               {searchResults.length > 0 ? (
-                <ul className="mt-3 max-w-xl mx-auto border border-border rounded-2xl bg-background overflow-hidden shadow-soft divide-y divide-border" role="listbox" aria-label="نتائج البحث">
+                <ul
+                  className="mt-3 max-w-xl mx-auto border border-border rounded-2xl bg-background overflow-hidden shadow-soft divide-y divide-border"
+                  role="listbox"
+                  aria-label="نتائج البحث"
+                >
                   {searchResults.map((p) => (
                     <li key={p.slug}>
                       <button
                         onClick={() => handleSuggestionClick(p.slug)}
                         className="w-full flex items-center gap-4 px-5 py-3 hover:bg-muted transition text-right"
                       >
-                        <img src={p.image} alt={p.name} className="w-10 h-10 rounded-lg object-cover shrink-0" />
+                        <img
+                          src={p.image}
+                          alt={p.name}
+                          className="w-10 h-10 rounded-lg object-cover shrink-0"
+                        />
                         <div className="flex-1 min-w-0">
                           <div className="font-display text-sm truncate">{p.name}</div>
-                          <div className="text-xs text-muted-foreground">{p.category} · {p.price} {p.currency}</div>
+                          <div className="text-xs text-muted-foreground">
+                            {p.category} · {p.price} {p.currency}
+                          </div>
                         </div>
                       </button>
                     </li>
@@ -233,7 +268,7 @@ export function Nav({ transparent = false }: { transparent?: boolean }) {
                 </ul>
               ) : (
                 <div className="mt-3 flex gap-2 flex-wrap max-w-xl mx-auto">
-                  {["ورد أحمر", "باقة عيد الأم", "علب هدايا", "أوركيد"].map(t => (
+                  {["ورد أحمر", "باقة عيد الأم", "علب هدايا", "أوركيد"].map((t) => (
                     <button
                       key={t}
                       onClick={() => setQuery(t)}
@@ -251,13 +286,25 @@ export function Nav({ transparent = false }: { transparent?: boolean }) {
 
       {/* Mobile menu */}
       {open && (
-        <div id="mobile-menu" className="fixed inset-0 z-[60] bg-background/98 backdrop-blur-2xl animate-reveal lg:hidden flex flex-col" role="dialog" aria-modal="true" aria-label="القائمة الرئيسية">
+        <div
+          id="mobile-menu"
+          className="fixed inset-0 z-[60] bg-background/98 backdrop-blur-2xl animate-reveal lg:hidden flex flex-col"
+          role="dialog"
+          aria-modal="true"
+          aria-label="القائمة الرئيسية"
+        >
           <div className="container-luxe flex items-center justify-between h-20 border-b border-border/40">
             <div className="flex items-center gap-2.5">
-              <span className="w-8 h-8 rounded-full bg-gradient-to-br from-blush to-rose-gold grid place-items-center text-charcoal font-display">ف</span>
+              <span className="w-8 h-8 rounded-full bg-gradient-to-br from-blush to-rose-gold grid place-items-center text-charcoal font-display">
+                ف
+              </span>
               <div className="font-display text-lg">YasRose</div>
             </div>
-            <button onClick={() => setOpen(false)} aria-label="إغلاق" className="p-2.5 hover:bg-muted rounded-full transition">
+            <button
+              onClick={() => setOpen(false)}
+              aria-label="إغلاق"
+              className="p-2.5 hover:bg-muted rounded-full transition"
+            >
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -273,7 +320,9 @@ export function Nav({ transparent = false }: { transparent?: boolean }) {
                 style={{ animationDelay: `${i * 60}ms` }}
               >
                 <span>{l.label}</span>
-                <span className="text-border text-base group-hover:text-rose-gold transition">←</span>
+                <span className="text-border text-base group-hover:text-rose-gold transition">
+                  ←
+                </span>
               </Link>
             ))}
           </nav>

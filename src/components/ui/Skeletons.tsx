@@ -1,11 +1,6 @@
 // ─── Skeleton primitives ─────────────────────────────────────────
 function Bone({ className = "" }: { className?: string }) {
-  return (
-    <div
-      className={`bg-muted animate-pulse rounded-xl ${className}`}
-      aria-hidden="true"
-    />
-  );
+  return <div className={`bg-muted animate-pulse rounded-xl ${className}`} aria-hidden="true" />;
 }
 
 // ─── Product Card Skeleton ────────────────────────────────────────
@@ -71,7 +66,9 @@ export function ProfileSkeleton() {
       <Bone className="h-10 w-1/2" />
       <Bone className="h-4 w-1/3" />
       <div className="grid sm:grid-cols-2 gap-4 mt-8">
-        {[1, 2, 3, 4].map((i) => <Bone key={i} className="h-12 rounded-xl" />)}
+        {[1, 2, 3, 4].map((i) => (
+          <Bone key={i} className="h-12 rounded-xl" />
+        ))}
       </div>
       <span className="sr-only">جارٍ التحميل...</span>
     </div>

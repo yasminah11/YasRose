@@ -57,8 +57,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const count = items.reduce((s, i) => s + i.qty, 0);
   const subtotal = items.reduce(
-    (s, i) =>
-      s + (i.product.price + (i.product.sizes[i.selectedSize]?.extra ?? 0)) * i.qty,
+    (s, i) => s + (i.product.price + (i.product.sizes[i.selectedSize]?.extra ?? 0)) * i.qty,
     0,
   );
 
@@ -100,9 +99,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (qty <= 0) {
       setItems((prev) => prev.filter((it) => it.product.slug !== slug));
     } else {
-      setItems((prev) =>
-        prev.map((it) => (it.product.slug === slug ? { ...it, qty } : it)),
-      );
+      setItems((prev) => prev.map((it) => (it.product.slug === slug ? { ...it, qty } : it)));
     }
   }, []);
 

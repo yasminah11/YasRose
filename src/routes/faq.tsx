@@ -7,7 +7,10 @@ export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
       { title: "الأسئلة الشائعة — YasRose" },
-      { name: "description", content: "إجابات لأكثر الأسئلة تكراراً حول التوصيل، التغليف، والطلبات الخاصة." },
+      {
+        name: "description",
+        content: "إجابات لأكثر الأسئلة تكراراً حول التوصيل، التغليف، والطلبات الخاصة.",
+      },
       { property: "og:title", content: "الأسئلة الشائعة — YasRose" },
       { property: "og:description", content: "كل ما تحتاجين معرفته." },
     ],
@@ -19,9 +22,18 @@ const groups = [
   {
     title: "الطلبات والتوصيل",
     items: [
-      ["هل تُوصلون في نفس اليوم؟", "نعم، جميع الطلبات المستلمة قبل الساعة ٥ مساءً تُوصل في نفس اليوم داخل بني سويف."],
-      ["ما هي مدن التوصيل المتاحة؟", "نغطي حالياً بني سويف، القاهرة، المنصورة، وأسيوط. مدن أخرى قريباً."],
-      ["هل يمكنني تحديد وقت توصيل معين؟", "بالتأكيد، يمكنك اختيار وقت توصيل محدد أثناء إتمام الطلب."],
+      [
+        "هل تُوصلون في نفس اليوم؟",
+        "نعم، جميع الطلبات المستلمة قبل الساعة ٥ مساءً تُوصل في نفس اليوم داخل بني سويف.",
+      ],
+      [
+        "ما هي مدن التوصيل المتاحة؟",
+        "نغطي حالياً بني سويف، القاهرة، المنصورة، وأسيوط. مدن أخرى قريباً.",
+      ],
+      [
+        "هل يمكنني تحديد وقت توصيل معين؟",
+        "بالتأكيد، يمكنك اختيار وقت توصيل محدد أثناء إتمام الطلب.",
+      ],
     ],
   },
   {
@@ -36,7 +48,10 @@ const groups = [
     title: "الدفع والإرجاع",
     items: [
       ["ما طرق الدفع المتاحة؟", "بطاقات ائتمانية، مدى، Apple Pay، والدفع عند الاستلام."],
-      ["ما سياسة الإرجاع؟", "نضمن جودة كل باقة. في حال وجود أي خلل، تواصلي معنا خلال ٢٤ ساعة لاستبدالها."],
+      [
+        "ما سياسة الإرجاع؟",
+        "نضمن جودة كل باقة. في حال وجود أي خلل، تواصلي معنا خلال ٢٤ ساعة لاستبدالها.",
+      ],
     ],
   },
 ];
@@ -71,11 +86,20 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="border-b border-border">
-      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between gap-6 py-6 text-right">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between gap-6 py-6 text-right"
+      >
         <span className="font-display text-lg">{q}</span>
-        {open ? <Minus className="w-4 h-4 shrink-0 text-rose-gold" /> : <Plus className="w-4 h-4 shrink-0" />}
+        {open ? (
+          <Minus className="w-4 h-4 shrink-0 text-rose-gold" />
+        ) : (
+          <Plus className="w-4 h-4 shrink-0" />
+        )}
       </button>
-      <div className={`grid transition-all duration-500 ${open ? "grid-rows-[1fr] opacity-100 pb-6" : "grid-rows-[0fr] opacity-0"}`}>
+      <div
+        className={`grid transition-all duration-500 ${open ? "grid-rows-[1fr] opacity-100 pb-6" : "grid-rows-[0fr] opacity-0"}`}
+      >
         <div className="overflow-hidden text-muted-foreground leading-loose">{a}</div>
       </div>
     </div>

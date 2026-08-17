@@ -27,7 +27,8 @@ import {
 } from "lucide-react";
 import { useMemo, useRef, useState, useEffect, useCallback } from "react";
 import { Layout } from "@/components/site/Layout";
-import { IMG } from "@/lib/shop-data";
+import { IMG, type Product } from "@/lib/shop-data";
+import { useCart } from "@/contexts/CartContext";
 
 export const Route = createFileRoute("/design")({
   head: () => ({
@@ -823,6 +824,7 @@ function BouquetSVG({
 
 function DesignPage() {
   const navigate = useNavigate({ from: "/design" });
+  const { addToCart } = useCart();
   const [design, setDesign] = useState<Design>(initial);
   const [step, setStep] = useState(0);
   const [finalized, setFinalized] = useState(false);
@@ -942,8 +944,31 @@ function DesignPage() {
     );
   };
   const handleAddToCart = () => {
+    // Build a pseudo-product from the custom design
+    const customProduct: Product = {
+      slug: `custom-bouquet-${Date.now()}`,
+      name: design.name || "باقة مخصصة",
+      tagline: activeFlowers.map((f) => f.name).join("، ") || "تصميم خاص",
+      price: totals.total,
+      oldPrice: undefined,
+      currency: "ج.م",
+      image: IMG.hero,
+      gallery: [IMG.hero],
+      rating: 5,
+      reviews: 0,
+      colors: [],
+      sizes: [{ name: "مخصص", extra: 0 }],
+      meaning: "تصميم خاص بك",
+      description: `باقة مصممة يدوياً: ${activeFlowers.map((f) => f.name).join("، ")} — تغليف ${wrap.name} — شريط ${ribbon.name}`,
+      category: "تصاميم مخصصة",
+      occasion: [],
+    };
+    addToCart(customProduct);
     setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 3000);
+    setTimeout(() => {
+      setAddedToCart(false);
+      navigate({ to: "/cart" });
+    }, 1200);
   };
 
   // dominant color for accent tinting

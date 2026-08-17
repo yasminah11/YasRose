@@ -59,7 +59,11 @@ function Login() {
           </div>
 
           <div className="flex items-center">
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md space-y-5" noValidate>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="w-full max-w-md space-y-5"
+              noValidate
+            >
               <div>
                 <div className="eyebrow mb-3">تسجيل الدخول</div>
                 <h1 className="font-display text-4xl">مرحباً بعودتك</h1>
@@ -90,7 +94,11 @@ function Login() {
                 </Link>
               </div>
 
-              <button type="submit" disabled={isSubmitting} className="btn-luxe w-full disabled:opacity-60">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-luxe w-full disabled:opacity-60"
+              >
                 {isSubmitting ? "جارٍ الدخول..." : "دخول"}
               </button>
 

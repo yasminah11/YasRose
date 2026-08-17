@@ -6,7 +6,7 @@ import { ArrowRight, ShoppingBag, Sparkles, Heart, X } from "lucide-react";
 
 export const Route = createFileRoute("/occasions/$slug")({
   head: ({ params }) => {
-    const occ = occasions.find(o => o.slug === params.slug);
+    const occ = occasions.find((o) => o.slug === params.slug);
     return {
       meta: [
         { title: `${occ?.name ?? "المناسبة"} — YasRose` },
@@ -20,52 +20,160 @@ export const Route = createFileRoute("/occasions/$slug")({
 // ─── Flower data per occasion ─────────────────────────────────────────────────
 const OCCASION_FLOWERS: Record<string, { query: string; arabicName: string; meaning: string }[]> = {
   love: [
-    { query: "red rose bouquet romantic",       arabicName: "الورد الأحمر",    meaning: "رمز الحب والشغف العميق" },
-    { query: "pink peony flowers romantic",     arabicName: "الفاوانيا",       meaning: "حب رقيق ونعومة الروح" },
-    { query: "red tulip bouquet love",          arabicName: "التوليب الأحمر",  meaning: "اعتراف صادق بالحب" },
-    { query: "red carnation bouquet passion",   arabicName: "القرنفل الأحمر",  meaning: "الشغف والإعجاب القوي" },
-    { query: "garden rose pink bouquet",        arabicName: "الورد الجوري",    meaning: "جمال لا يضاهى وتقدير عميق" },
-    { query: "red anemone flower bouquet",      arabicName: "الشقيق",          meaning: "لحظة مؤثرة لا تُنسى" },
+    {
+      query: "red rose bouquet romantic",
+      arabicName: "الورد الأحمر",
+      meaning: "رمز الحب والشغف العميق",
+    },
+    {
+      query: "pink peony flowers romantic",
+      arabicName: "الفاوانيا",
+      meaning: "حب رقيق ونعومة الروح",
+    },
+    { query: "red tulip bouquet love", arabicName: "التوليب الأحمر", meaning: "اعتراف صادق بالحب" },
+    {
+      query: "red carnation bouquet passion",
+      arabicName: "القرنفل الأحمر",
+      meaning: "الشغف والإعجاب القوي",
+    },
+    {
+      query: "garden rose pink bouquet",
+      arabicName: "الورد الجوري",
+      meaning: "جمال لا يضاهى وتقدير عميق",
+    },
+    { query: "red anemone flower bouquet", arabicName: "الشقيق", meaning: "لحظة مؤثرة لا تُنسى" },
   ],
   wedding: [
-    { query: "white rose wedding bouquet",      arabicName: "الورد الأبيض",    meaning: "النقاء والبداية الجديدة" },
-    { query: "white peony wedding bouquet",     arabicName: "الفاوانيا البيضاء", meaning: "الازدهار والسعادة الزوجية" },
-    { query: "white lily wedding flowers",      arabicName: "الزنبق الأبيض",   meaning: "الطهارة والأناقة الأبدية" },
-    { query: "white orchid elegant",            arabicName: "الأوركيد",        meaning: "الأناقة الراقية والخلود" },
-    { query: "white ranunculus flower",         arabicName: "الرانونكيولس",     meaning: "البهجة والجمال المتجدد" },
-    { query: "eucalyptus white flowers bridal", arabicName: "الأوكالبتوس",     meaning: "التناغم والهدوء الرومانسي" },
+    {
+      query: "white rose wedding bouquet",
+      arabicName: "الورد الأبيض",
+      meaning: "النقاء والبداية الجديدة",
+    },
+    {
+      query: "white peony wedding bouquet",
+      arabicName: "الفاوانيا البيضاء",
+      meaning: "الازدهار والسعادة الزوجية",
+    },
+    {
+      query: "white lily wedding flowers",
+      arabicName: "الزنبق الأبيض",
+      meaning: "الطهارة والأناقة الأبدية",
+    },
+    { query: "white orchid elegant", arabicName: "الأوركيد", meaning: "الأناقة الراقية والخلود" },
+    {
+      query: "white ranunculus flower",
+      arabicName: "الرانونكيولس",
+      meaning: "البهجة والجمال المتجدد",
+    },
+    {
+      query: "eucalyptus white flowers bridal",
+      arabicName: "الأوكالبتوس",
+      meaning: "التناغم والهدوء الرومانسي",
+    },
   ],
   anniversary: [
-    { query: "red rose anniversary bouquet",    arabicName: "الورد الأحمر",    meaning: "حب لا يزداد إلا عمقاً" },
-    { query: "deep purple rose bouquet",        arabicName: "الورد البنفسجي",  meaning: "ذكريات راسخة في القلب" },
-    { query: "pink garden rose anniversary",    arabicName: "الورد الجوري",    meaning: "عطاء دائم وتجدد مستمر" },
-    { query: "red tulip anniversary flowers",   arabicName: "التوليب",         meaning: "تجديد العهد والوفاء" },
-    { query: "wine red dahlia bouquet",         arabicName: "الداليا",         meaning: "قوة الرابطة بين القلبين" },
-    { query: "deep pink lily bouquet",          arabicName: "الزنبق الوردي",   meaning: "الحب المتصاعد عبر السنين" },
+    {
+      query: "red rose anniversary bouquet",
+      arabicName: "الورد الأحمر",
+      meaning: "حب لا يزداد إلا عمقاً",
+    },
+    {
+      query: "deep purple rose bouquet",
+      arabicName: "الورد البنفسجي",
+      meaning: "ذكريات راسخة في القلب",
+    },
+    {
+      query: "pink garden rose anniversary",
+      arabicName: "الورد الجوري",
+      meaning: "عطاء دائم وتجدد مستمر",
+    },
+    {
+      query: "red tulip anniversary flowers",
+      arabicName: "التوليب",
+      meaning: "تجديد العهد والوفاء",
+    },
+    { query: "wine red dahlia bouquet", arabicName: "الداليا", meaning: "قوة الرابطة بين القلبين" },
+    {
+      query: "deep pink lily bouquet",
+      arabicName: "الزنبق الوردي",
+      meaning: "الحب المتصاعد عبر السنين",
+    },
   ],
   newborn: [
-    { query: "soft pink flowers baby shower",   arabicName: "الورد الوردي الفاتح", meaning: "ابتسامة أول لقاء" },
-    { query: "white baby breath flowers",       arabicName: "نفس الطفل",      meaning: "البراءة والطهارة" },
-    { query: "light blue flowers newborn",      arabicName: "الزهور الزرقاء الفاتحة", meaning: "الهدوء والسلام" },
-    { query: "pale yellow daisy bouquet",       arabicName: "الأقحوان",        meaning: "فرحة الولادة والضوء" },
-    { query: "soft peach roses delicate",       arabicName: "الورد الخوخي",    meaning: "دفء الأحضان الأولى" },
-    { query: "lavender flowers soft bouquet",   arabicName: "اللافندر",        meaning: "حماية وهدوء لروح جديدة" },
+    {
+      query: "soft pink flowers baby shower",
+      arabicName: "الورد الوردي الفاتح",
+      meaning: "ابتسامة أول لقاء",
+    },
+    { query: "white baby breath flowers", arabicName: "نفس الطفل", meaning: "البراءة والطهارة" },
+    {
+      query: "light blue flowers newborn",
+      arabicName: "الزهور الزرقاء الفاتحة",
+      meaning: "الهدوء والسلام",
+    },
+    { query: "pale yellow daisy bouquet", arabicName: "الأقحوان", meaning: "فرحة الولادة والضوء" },
+    {
+      query: "soft peach roses delicate",
+      arabicName: "الورد الخوخي",
+      meaning: "دفء الأحضان الأولى",
+    },
+    {
+      query: "lavender flowers soft bouquet",
+      arabicName: "اللافندر",
+      meaning: "حماية وهدوء لروح جديدة",
+    },
   ],
   corporate: [
-    { query: "white orchid office elegant",     arabicName: "الأوركيد الأبيض", meaning: "احترافية وأناقة ثابتة" },
-    { query: "green succulent arrangement",     arabicName: "النباتات الخضراء", meaning: "نمو مستدام وحيوية" },
-    { query: "white lily office flowers",       arabicName: "الزنبق",          meaning: "وضوح الرؤية والثقة" },
-    { query: "elegant white flowers corporate", arabicName: "الزهور البيضاء",  meaning: "بساطة راقية تليق بالأعمال" },
-    { query: "purple iris flowers office",      arabicName: "السوسن",          meaning: "الحكمة والثقة المهنية" },
-    { query: "green hydrangea arrangement",     arabicName: "الهيدرانجيا",     meaning: "الوفرة والنجاح المتواصل" },
+    {
+      query: "white orchid office elegant",
+      arabicName: "الأوركيد الأبيض",
+      meaning: "احترافية وأناقة ثابتة",
+    },
+    {
+      query: "green succulent arrangement",
+      arabicName: "النباتات الخضراء",
+      meaning: "نمو مستدام وحيوية",
+    },
+    { query: "white lily office flowers", arabicName: "الزنبق", meaning: "وضوح الرؤية والثقة" },
+    {
+      query: "elegant white flowers corporate",
+      arabicName: "الزهور البيضاء",
+      meaning: "بساطة راقية تليق بالأعمال",
+    },
+    { query: "purple iris flowers office", arabicName: "السوسن", meaning: "الحكمة والثقة المهنية" },
+    {
+      query: "green hydrangea arrangement",
+      arabicName: "الهيدرانجيا",
+      meaning: "الوفرة والنجاح المتواصل",
+    },
   ],
   sympathy: [
-    { query: "white lily sympathy flowers",     arabicName: "الزنبق الأبيض",   meaning: "الرحمة ونقاء الروح" },
-    { query: "white rose gentle sympathy",      arabicName: "الورد الأبيض",    meaning: "السلام والطمأنينة" },
-    { query: "purple lavender sympathy",        arabicName: "اللافندر",        meaning: "الهدوء ومواساة القلب" },
-    { query: "pale blue flowers soothing",      arabicName: "الزهور الزرقاء",  meaning: "الدعم الهادئ في الصعاب" },
-    { query: "white chrysanthemum flowers",     arabicName: "الأقحوان الأبيض", meaning: "الوفاء والذكرى الخالدة" },
-    { query: "soft white flowers gentle",       arabicName: "الزهور البيضاء",  meaning: "احترام هادئ وعطف صادق" },
+    {
+      query: "white lily sympathy flowers",
+      arabicName: "الزنبق الأبيض",
+      meaning: "الرحمة ونقاء الروح",
+    },
+    {
+      query: "white rose gentle sympathy",
+      arabicName: "الورد الأبيض",
+      meaning: "السلام والطمأنينة",
+    },
+    { query: "purple lavender sympathy", arabicName: "اللافندر", meaning: "الهدوء ومواساة القلب" },
+    {
+      query: "pale blue flowers soothing",
+      arabicName: "الزهور الزرقاء",
+      meaning: "الدعم الهادئ في الصعاب",
+    },
+    {
+      query: "white chrysanthemum flowers",
+      arabicName: "الأقحوان الأبيض",
+      meaning: "الوفاء والذكرى الخالدة",
+    },
+    {
+      query: "soft white flowers gentle",
+      arabicName: "الزهور البيضاء",
+      meaning: "احترام هادئ وعطف صادق",
+    },
   ],
 };
 
@@ -81,12 +189,14 @@ type FlowerCard = {
 
 const UNSPLASH_KEY = import.meta.env.VITE_UNSPLASH_KEY ?? "";
 
-async function fetchUnsplashImage(query: string): Promise<{ url: string; photographer: string } | null> {
+async function fetchUnsplashImage(
+  query: string,
+): Promise<{ url: string; photographer: string } | null> {
   if (!UNSPLASH_KEY) return null;
   try {
     const res = await fetch(
       `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=1&orientation=portrait&client_id=${UNSPLASH_KEY}`,
-      { headers: { "Accept-Version": "v1" } }
+      { headers: { "Accept-Version": "v1" } },
     );
     if (!res.ok) return null;
     const data = await res.json();
@@ -101,7 +211,7 @@ async function fetchUnsplashImage(query: string): Promise<{ url: string; photogr
 function OccasionDetail() {
   const { slug } = Route.useParams();
   const navigate = useNavigate();
-  const occasion = occasions.find(o => o.slug === slug);
+  const occasion = occasions.find((o) => o.slug === slug);
   const flowersConfig = OCCASION_FLOWERS[slug] ?? OCCASION_FLOWERS.love;
 
   const [flowers, setFlowers] = useState<FlowerCard[]>(
@@ -111,7 +221,7 @@ function OccasionDetail() {
       meaning: f.meaning,
       imageUrl: null,
       loading: true,
-    }))
+    })),
   );
   const [wishlist, setWishlist] = useState<Set<string>>(new Set());
   const headerRef = useRef<HTMLDivElement>(null);
@@ -122,22 +232,32 @@ function OccasionDetail() {
     if (!el) return;
     el.style.opacity = "0";
     el.style.transform = "translateY(30px)";
-    el.style.transition = "opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1)";
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      el.style.opacity = "1";
-      el.style.transform = "translateY(0)";
-    }));
+    el.style.transition =
+      "opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1)";
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      }),
+    );
   }, []);
 
   // Fetch images from Unsplash
   useEffect(() => {
     flowersConfig.forEach(async (f, i) => {
       const result = await fetchUnsplashImage(f.query);
-      setFlowers(prev => prev.map((card, idx) =>
-        idx === i
-          ? { ...card, imageUrl: result?.url ?? null, photographer: result?.photographer, loading: false }
-          : card
-      ));
+      setFlowers((prev) =>
+        prev.map((card, idx) =>
+          idx === i
+            ? {
+                ...card,
+                imageUrl: result?.url ?? null,
+                photographer: result?.photographer,
+                loading: false,
+              }
+            : card,
+        ),
+      );
     });
   }, [slug]);
 
@@ -146,14 +266,16 @@ function OccasionDetail() {
       <Layout>
         <div className="container-luxe py-40 text-center">
           <div className="font-display text-3xl mb-4">لم يتم العثور على المناسبة</div>
-          <Link to="/occasions" className="btn-luxe">عودة للمناسبات</Link>
+          <Link to="/occasions" className="btn-luxe">
+            عودة للمناسبات
+          </Link>
         </div>
       </Layout>
     );
   }
 
   const toggleWishlist = (id: string) => {
-    setWishlist(prev => {
+    setWishlist((prev) => {
       const next = new Set(prev);
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
@@ -196,7 +318,9 @@ function OccasionDetail() {
           </p>
           <div className="mt-6 flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-rose-gold" />
-            <span className="text-xs tracking-[0.25em] text-white/60">صور من Unsplash · اختيار بالذكاء الاصطناعي</span>
+            <span className="text-xs tracking-[0.25em] text-white/60">
+              صور من Unsplash · اختيار بالذكاء الاصطناعي
+            </span>
           </div>
         </div>
       </section>
@@ -206,9 +330,7 @@ function OccasionDetail() {
         <div className="flex items-end justify-between gap-6 mb-14 flex-wrap">
           <div>
             <div className="eyebrow mb-3">الزهور المقترحة</div>
-            <h2 className="font-display text-3xl md:text-4xl">
-              زهور تليق بـ&nbsp;{occasion.name}
-            </h2>
+            <h2 className="font-display text-3xl md:text-4xl">زهور تليق بـ&nbsp;{occasion.name}</h2>
             <p className="mt-3 text-muted-foreground text-sm max-w-lg">
               كل زهرة تحمل معناها الخاص — نسّق منها باقتك المثالية مع فريق أتلييه YasRose.
             </p>
@@ -232,8 +354,14 @@ function OccasionDetail() {
 
         {/* CTA strip */}
         <div className="mt-20 relative overflow-hidden rounded-[36px] bg-charcoal text-primary-foreground px-8 py-14 md:p-16">
-          <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-rose-gold/20 blur-3xl" aria-hidden />
-          <div className="absolute -bottom-16 -left-10 w-48 h-48 rounded-full bg-blush/10 blur-3xl" aria-hidden />
+          <div
+            className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-rose-gold/20 blur-3xl"
+            aria-hidden
+          />
+          <div
+            className="absolute -bottom-16 -left-10 w-48 h-48 rounded-full bg-blush/10 blur-3xl"
+            aria-hidden
+          />
           <div className="relative flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
               <div className="eyebrow text-rose-gold mb-3">احجزي باقتك الآن</div>
@@ -248,7 +376,10 @@ function OccasionDetail() {
               <Link to="/shop" className="btn-luxe !bg-rose-gold !text-white whitespace-nowrap">
                 <ShoppingBag className="w-4 h-4" /> تسوقي المجموعة
               </Link>
-              <Link to="/design" className="btn-ghost-luxe !border-white/30 !text-white hover:!bg-white/10 whitespace-nowrap text-center">
+              <Link
+                to="/design"
+                className="btn-ghost-luxe !border-white/30 !text-white hover:!bg-white/10 whitespace-nowrap text-center"
+              >
                 صممي باقتك
               </Link>
             </div>
@@ -261,7 +392,10 @@ function OccasionDetail() {
 
 // ─── FlowerCardItem ───────────────────────────────────────────────────────────
 function FlowerCardItem({
-  flower, index, isWishlisted, onWishlist,
+  flower,
+  index,
+  isWishlisted,
+  onWishlist,
 }: {
   flower: FlowerCard;
   index: number;
@@ -274,9 +408,15 @@ function FlowerCardItem({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setVisible(true); obs.disconnect(); }
-    }, { threshold: 0.1 });
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);

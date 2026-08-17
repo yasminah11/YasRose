@@ -6,7 +6,13 @@ import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useProductImage } from "@/hooks/useProductImage";
 
-export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
+export function ProductCard({
+  product,
+  priority = false,
+}: {
+  product: Product;
+  priority?: boolean;
+}) {
   const { addToCart } = useCart();
   const { toggle, isWishlisted } = useWishlist();
   const [addedToCart, setAddedToCart] = useState(false);
@@ -22,13 +28,22 @@ export function ProductCard({ product, priority = false }: { product: Product; p
     addToCart(product);
     setAddedToCart(true);
     setAnnouncement(`تمت إضافة ${product.name} إلى السلة`);
-    setTimeout(() => { setAddedToCart(false); setAnnouncement(""); }, 1800);
+    setTimeout(() => {
+      setAddedToCart(false);
+      setAnnouncement("");
+    }, 1800);
   };
 
   return (
     <article className="group" aria-label={`منتج: ${product.name}`}>
-      <div role="status" aria-live="polite" className="sr-only">{announcement}</div>
-      <Link to="/product/$slug" params={{ slug: product.slug }} className="block focus-visible:outline-2 focus-visible:outline-rose-gold focus-visible:outline-offset-2 rounded-2xl">
+      <div role="status" aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
+      <Link
+        to="/product/$slug"
+        params={{ slug: product.slug }}
+        className="block focus-visible:outline-2 focus-visible:outline-rose-gold focus-visible:outline-offset-2 rounded-2xl"
+      >
         <div className="relative overflow-hidden rounded-2xl bg-cream aspect-[4/5] shadow-soft/30">
           <img
             src={imageSrc}
@@ -42,7 +57,10 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           />
 
           {/* Subtle overlay on hover */}
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-charcoal/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            aria-hidden
+          />
 
           {/* Badges */}
           <div className="absolute top-4 right-4 flex flex-col gap-2">
@@ -67,14 +85,19 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           <div className="absolute top-4 left-4 flex flex-col gap-2 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-400">
             <button
               aria-label={liked ? "إزالة من المفضلة" : "أضف للمفضلة"}
-              onClick={(e) => { e.preventDefault(); toggle(product); }}
+              onClick={(e) => {
+                e.preventDefault();
+                toggle(product);
+              }}
               className={`w-9 h-9 grid place-items-center rounded-full transition shadow-soft ${
                 liked ? "bg-rose-gold text-white" : "glass hover:bg-rose-gold hover:text-white"
               }`}
             >
               <Heart className={`w-4 h-4 ${liked ? "fill-white" : ""}`} />
             </button>
-            <IconBtn label="عرض سريع"><Eye className="w-4 h-4" /></IconBtn>
+            <IconBtn label="عرض سريع">
+              <Eye className="w-4 h-4" />
+            </IconBtn>
           </div>
 
           {/* Add to cart */}
@@ -88,9 +111,13 @@ export function ProductCard({ product, priority = false }: { product: Product; p
               }`}
             >
               {addedToCart ? (
-                <><Zap className="w-4 h-4" /> أُضيف إلى السلة!</>
+                <>
+                  <Zap className="w-4 h-4" /> أُضيف إلى السلة!
+                </>
               ) : (
-                <><ShoppingBag className="w-4 h-4" /> أضف إلى السلة</>
+                <>
+                  <ShoppingBag className="w-4 h-4" /> أضف إلى السلة
+                </>
               )}
             </button>
           </div>
@@ -118,7 +145,8 @@ export function ProductCard({ product, priority = false }: { product: Product; p
               </span>
             )}
             <span className="font-display text-base">
-              {product.price} <span className="text-xs text-muted-foreground">{product.currency}</span>
+              {product.price}{" "}
+              <span className="text-xs text-muted-foreground">{product.currency}</span>
             </span>
           </div>
         </div>
@@ -128,8 +156,11 @@ export function ProductCard({ product, priority = false }: { product: Product; p
         {/* Rating row */}
         <div className="flex items-center gap-1.5 mt-2 text-xs text-muted-foreground">
           <div className="flex gap-0.5">
-            {[1,2,3,4,5].map(s => (
-              <Star key={s} className={`w-3 h-3 ${s <= Math.round(product.rating) ? "fill-rose-gold text-rose-gold" : "text-border"}`} />
+            {[1, 2, 3, 4, 5].map((s) => (
+              <Star
+                key={s}
+                className={`w-3 h-3 ${s <= Math.round(product.rating) ? "fill-rose-gold text-rose-gold" : "text-border"}`}
+              />
             ))}
           </div>
           <span className="font-medium text-foreground/70">{product.rating}</span>
@@ -149,7 +180,9 @@ export function ProductCard({ product, priority = false }: { product: Product; p
               />
             ))}
             {product.colors.length > 3 && (
-              <span className="text-[10px] text-muted-foreground ms-1">+{product.colors.length - 3}</span>
+              <span className="text-[10px] text-muted-foreground ms-1">
+                +{product.colors.length - 3}
+              </span>
             )}
           </div>
         )}

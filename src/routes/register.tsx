@@ -58,7 +58,11 @@ function Register() {
       <section className="container-luxe pt-4">
         <div className="grid lg:grid-cols-2 gap-16 min-h-[70vh]">
           <div className="flex items-center">
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md space-y-4" noValidate>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="w-full max-w-md space-y-4"
+              noValidate
+            >
               <div>
                 <div className="eyebrow mb-3">حساب جديد</div>
                 <h1 className="font-display text-4xl">انضم إلى الدار</h1>
@@ -126,9 +130,7 @@ function Register() {
                   </Link>
                 </span>
               </label>
-              {errors.agreed && (
-                <p className="text-xs text-destructive">{errors.agreed.message}</p>
-              )}
+              {errors.agreed && <p className="text-xs text-destructive">{errors.agreed.message}</p>}
 
               <button
                 type="submit"
@@ -152,7 +154,9 @@ function Register() {
             <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 to-transparent" />
             <div className="absolute bottom-12 right-12 text-primary-foreground max-w-sm">
               <div className="eyebrow text-rose-gold mb-3">انضم إلينا</div>
-              <div className="font-display text-4xl leading-tight">عضوية الدار — مزايا استثنائية</div>
+              <div className="font-display text-4xl leading-tight">
+                عضوية الدار — مزايا استثنائية
+              </div>
             </div>
           </div>
         </div>
@@ -163,7 +167,12 @@ function Register() {
 
 const Field = forwardRef<
   HTMLInputElement,
-  { label: string; type?: string; placeholder?: string; error?: string } & React.InputHTMLAttributes<HTMLInputElement>
+  {
+    label: string;
+    type?: string;
+    placeholder?: string;
+    error?: string;
+  } & React.InputHTMLAttributes<HTMLInputElement>
 >(({ label, type = "text", placeholder, error, ...rest }, ref) => (
   <label className="block">
     <span className="text-xs text-muted-foreground">{label}</span>

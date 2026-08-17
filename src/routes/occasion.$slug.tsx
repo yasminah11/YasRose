@@ -9,7 +9,7 @@ import { useProductImage } from "@/hooks/useProductImage";
 
 export const Route = createFileRoute("/occasion/$slug")({
   head: ({ params }) => {
-    const occ = occasions.find(o => o.slug === params.slug);
+    const occ = occasions.find((o) => o.slug === params.slug);
     return {
       meta: [
         { title: `${occ?.name ?? "المناسبة"} — YasRose` },
@@ -22,19 +22,17 @@ export const Route = createFileRoute("/occasion/$slug")({
 
 // Map slug → keywords to filter products
 const OCCASION_MAP: Record<string, string[]> = {
-  love:        ["الحب", "الاعتذار"],
-  wedding:     ["الأعراس"],
+  love: ["الحب", "الاعتذار"],
+  wedding: ["الأعراس"],
   anniversary: ["الذكرى السنوية"],
-  newborn:     ["المواليد", "عيد الأم"],
-  corporate:   ["المكتب", "الإهداء الرسمي", "افتتاح الأعمال"],
-  sympathy:    ["المواساة", "المناسبات"],
+  newborn: ["المواليد", "عيد الأم"],
+  corporate: ["المكتب", "الإهداء الرسمي", "افتتاح الأعمال"],
+  sympathy: ["المواساة", "المناسبات"],
 };
 
 function getOccasionProducts(slug: string): Product[] {
   const keywords = OCCASION_MAP[slug] ?? [];
-  const filtered = products.filter(p =>
-    p.occasion.some(o => keywords.includes(o))
-  );
+  const filtered = products.filter((p) => p.occasion.some((o) => keywords.includes(o)));
   // If no match, return all products
   return filtered.length > 0 ? filtered : products;
 }
@@ -54,9 +52,15 @@ function OccasionProductCard({ product, index }: { product: Product; index: numb
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setVisible(true); obs.disconnect(); }
-    }, { threshold: 0.08 });
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.08 },
+    );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
@@ -121,9 +125,13 @@ function OccasionProductCard({ product, index }: { product: Product; index: numb
             }`}
           >
             {added || inCart ? (
-              <><Check className="w-4 h-4" /> أُضيف للسلة</>
+              <>
+                <Check className="w-4 h-4" /> أُضيف للسلة
+              </>
             ) : (
-              <><ShoppingBag className="w-4 h-4" /> أضف للسلة</>
+              <>
+                <ShoppingBag className="w-4 h-4" /> أضف للسلة
+              </>
             )}
           </button>
         </div>
@@ -160,7 +168,7 @@ function OccasionProductCard({ product, index }: { product: Product; index: numb
 function OccasionDetail() {
   const { slug } = Route.useParams();
   const navigate = useNavigate();
-  const occasion = occasions.find(o => o.slug === slug);
+  const occasion = occasions.find((o) => o.slug === slug);
   const occasionProducts = getOccasionProducts(slug);
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -169,11 +177,14 @@ function OccasionDetail() {
     if (!el) return;
     el.style.opacity = "0";
     el.style.transform = "translateY(24px)";
-    el.style.transition = "opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1)";
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      el.style.opacity = "1";
-      el.style.transform = "translateY(0)";
-    }));
+    el.style.transition =
+      "opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1)";
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      }),
+    );
   }, []);
 
   if (!occasion) {
@@ -181,7 +192,9 @@ function OccasionDetail() {
       <Layout>
         <div className="container-luxe py-40 text-center">
           <div className="font-display text-3xl mb-4">لم يُعثر على هذه المناسبة</div>
-          <Link to="/occasions" className="btn-luxe">العودة للمناسبات</Link>
+          <Link to="/occasions" className="btn-luxe">
+            العودة للمناسبات
+          </Link>
         </div>
       </Layout>
     );
@@ -215,7 +228,11 @@ function OccasionDetail() {
           </div>
           <h1
             className="text-4xl md:text-5xl text-white"
-            style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, letterSpacing: "-0.01em" }}
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontWeight: 300,
+              letterSpacing: "-0.01em",
+            }}
           >
             {occasion.name}
           </h1>
@@ -231,9 +248,13 @@ function OccasionDetail() {
       {/* ─── Breadcrumb ─── */}
       <div className="container-luxe pt-6 pb-2">
         <nav className="text-xs text-muted-foreground flex items-center gap-2">
-          <Link to="/" className="hover:text-foreground transition-colors">الرئيسية</Link>
+          <Link to="/" className="hover:text-foreground transition-colors">
+            الرئيسية
+          </Link>
           <ChevronLeft className="w-3 h-3" />
-          <Link to="/occasions" className="hover:text-foreground transition-colors">المناسبات</Link>
+          <Link to="/occasions" className="hover:text-foreground transition-colors">
+            المناسبات
+          </Link>
           <ChevronLeft className="w-3 h-3" />
           <span className="text-foreground">{occasion.name}</span>
         </nav>
@@ -265,7 +286,9 @@ function OccasionDetail() {
           <div className="text-center py-24">
             <div className="text-5xl mb-4">🌸</div>
             <p className="text-muted-foreground">لا توجد باقات لهذه المناسبة حالياً</p>
-            <Link to="/shop" className="btn-luxe mt-6">تصفّح المتجر</Link>
+            <Link to="/shop" className="btn-luxe mt-6">
+              تصفّح المتجر
+            </Link>
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
@@ -286,7 +309,9 @@ function OccasionDetail() {
             </p>
             <p className="text-sm text-muted-foreground">فريق الأتلييه يصمم لك باقتك من الصفر</p>
           </div>
-          <Link to="/design" className="btn-luxe shrink-0">صمم باقتك</Link>
+          <Link to="/design" className="btn-luxe shrink-0">
+            صمم باقتك
+          </Link>
         </div>
       </section>
     </Layout>

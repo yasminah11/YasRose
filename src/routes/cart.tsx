@@ -27,8 +27,8 @@ function Cart() {
   const applyCoupon = () => {
     // Demo coupons — replace with real API call
     const coupons: Record<string, number> = {
-      "YASROSE10": Math.round(subtotal * 0.1),
-      "WELCOME20": Math.round(subtotal * 0.2),
+      YASROSE10: Math.round(subtotal * 0.1),
+      WELCOME20: Math.round(subtotal * 0.2),
     };
     if (coupons[coupon.toUpperCase()]) {
       setDiscount(coupons[coupon.toUpperCase()]);
@@ -51,7 +51,9 @@ function Cart() {
           <div className="text-center py-32">
             <div className="font-display text-3xl mb-4">سلتك فارغة</div>
             <p className="text-muted-foreground mb-8">أضيفي تصاميم تعجبك من متجرنا.</p>
-            <Link to="/shop" className="btn-luxe">استعرض المتجر</Link>
+            <Link to="/shop" className="btn-luxe">
+              استعرض المتجر
+            </Link>
           </div>
         ) : (
           <div className="grid lg:grid-cols-[1.4fr_1fr] gap-14 py-14">
@@ -62,7 +64,11 @@ function Cart() {
                 return (
                   <div key={it.product.slug} className="flex gap-6 pb-8 border-b border-border">
                     <div className="w-32 h-40 rounded-2xl overflow-hidden bg-cream shrink-0">
-                      <img src={it.product.image} alt={it.product.name} className="w-full h-full object-cover" />
+                      <img
+                        src={it.product.image}
+                        alt={it.product.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-4">
@@ -108,7 +114,9 @@ function Cart() {
                         </div>
                         <div className="font-display text-lg">
                           {price * it.qty}{" "}
-                          <span className="text-xs text-muted-foreground">{it.product.currency}</span>
+                          <span className="text-xs text-muted-foreground">
+                            {it.product.currency}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -133,19 +141,21 @@ function Cart() {
                   <input
                     placeholder="رمز الخصم"
                     value={coupon}
-                    onChange={(e) => { setCoupon(e.target.value); setCouponError(""); }}
+                    onChange={(e) => {
+                      setCoupon(e.target.value);
+                      setCouponError("");
+                    }}
                     className="flex-1 bg-transparent outline-none text-sm"
                   />
-                  <button onClick={applyCoupon} className="text-xs tracking-[0.15em] text-rose-gold shrink-0">
+                  <button
+                    onClick={applyCoupon}
+                    className="text-xs tracking-[0.15em] text-rose-gold shrink-0"
+                  >
                     تطبيق
                   </button>
                 </div>
-                {couponError && (
-                  <p className="text-xs text-destructive px-1">{couponError}</p>
-                )}
-                {discount > 0 && (
-                  <p className="text-xs text-emerald-600 px-1">✓ تم تطبيق الخصم</p>
-                )}
+                {couponError && <p className="text-xs text-destructive px-1">{couponError}</p>}
+                {discount > 0 && <p className="text-xs text-emerald-600 px-1">✓ تم تطبيق الخصم</p>}
 
                 <div className="hairline my-4" />
                 <div className="flex items-center justify-between font-display text-xl pt-2">
@@ -153,10 +163,16 @@ function Cart() {
                   <span>{total} ج.م</span>
                 </div>
               </div>
-              <Link to="/checkout" className="btn-luxe w-full mt-8 flex items-center justify-center gap-2">
+              <Link
+                to="/checkout"
+                className="btn-luxe w-full mt-8 flex items-center justify-center gap-2"
+              >
                 إتمام الطلب <ArrowLeft className="w-4 h-4" />
               </Link>
-              <Link to="/shop" className="block text-center text-sm text-muted-foreground mt-4 hover:text-foreground transition">
+              <Link
+                to="/shop"
+                className="block text-center text-sm text-muted-foreground mt-4 hover:text-foreground transition"
+              >
                 متابعة التسوق
               </Link>
             </aside>

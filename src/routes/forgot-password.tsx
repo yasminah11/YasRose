@@ -10,10 +10,7 @@ import { useState } from "react";
 
 export const Route = createFileRoute("/forgot-password")({
   head: () => ({
-    meta: [
-      { title: "استعادة كلمة المرور — YasRose" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "استعادة كلمة المرور — YasRose" }, { name: "robots", content: "noindex" }],
   }),
   component: ForgotPassword,
 });
@@ -54,9 +51,8 @@ function ForgotPassword() {
               <div className="eyebrow mb-3">تم الإرسال</div>
               <h1 className="font-display text-4xl mb-4">تفقدي بريدك</h1>
               <p className="text-muted-foreground leading-loose">
-                أرسلنا رابط إعادة تعيين كلمة المرور إلى{" "}
-                <strong>{sentEmail}</strong>. إذا لم يصلك البريد، تفقدي مجلد
-                الرسائل غير المرغوب فيها.
+                أرسلنا رابط إعادة تعيين كلمة المرور إلى <strong>{sentEmail}</strong>. إذا لم يصلك
+                البريد، تفقدي مجلد الرسائل غير المرغوب فيها.
               </p>
               <Link to="/login" className="btn-ghost-luxe mt-8 inline-block">
                 العودة لتسجيل الدخول
@@ -95,7 +91,10 @@ function ForgotPassword() {
                   {isSubmitting ? "جارٍ الإرسال..." : "إرسال رابط الاستعادة"}
                 </button>
                 <div className="text-center">
-                  <Link to="/login" className="text-sm text-muted-foreground hover:text-foreground transition">
+                  <Link
+                    to="/login"
+                    className="text-sm text-muted-foreground hover:text-foreground transition"
+                  >
                     العودة لتسجيل الدخول
                   </Link>
                 </div>

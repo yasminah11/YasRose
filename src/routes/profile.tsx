@@ -1,6 +1,17 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
-import { User, Package, Heart, MapPin, LogOut, ChevronLeft, Plus, Pencil, Trash2, Check } from "lucide-react";
+import {
+  User,
+  Package,
+  Heart,
+  MapPin,
+  LogOut,
+  ChevronLeft,
+  Plus,
+  Pencil,
+  Trash2,
+  Check,
+} from "lucide-react";
 import { useState, forwardRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,17 +33,17 @@ export const Route = createFileRoute("/profile")({
 });
 
 const TABS = [
-  { id: "profile",   label: "الحساب",   icon: User },
-  { id: "orders",    label: "طلباتي",   icon: Package },
-  { id: "wishlist",  label: "المفضلة",  icon: Heart },
+  { id: "profile", label: "الحساب", icon: User },
+  { id: "orders", label: "طلباتي", icon: Package },
+  { id: "wishlist", label: "المفضلة", icon: Heart },
   { id: "addresses", label: "العناوين", icon: MapPin },
 ];
 
 // Demo orders data (replace with API call when backend is ready)
 const DEMO_ORDERS = [
-  { id: "FN-2841", status: "قيد التوصيل",  date: "٢٩ يناير ٢٠٢٦", price: "٩١٠ ج.م", active: true },
-  { id: "FN-2790", status: "تم التوصيل",   date: "١٥ يناير ٢٠٢٦", price: "٤٩٥ ج.م", active: false },
-  { id: "FN-2712", status: "تم التوصيل",   date: "٢ يناير ٢٠٢٦",  price: "٦٢٠ ج.م", active: false },
+  { id: "FN-2841", status: "قيد التوصيل", date: "٢٩ يناير ٢٠٢٦", price: "٩١٠ ج.م", active: true },
+  { id: "FN-2790", status: "تم التوصيل", date: "١٥ يناير ٢٠٢٦", price: "٤٩٥ ج.م", active: false },
+  { id: "FN-2712", status: "تم التوصيل", date: "٢ يناير ٢٠٢٦", price: "٦٢٠ ج.م", active: false },
 ];
 
 type AddressEntry = AddressFormData & { id: string };
@@ -48,8 +59,24 @@ function Profile() {
 
   // Addresses state (replace with API calls when backend ready)
   const [addresses, setAddresses] = useState<AddressEntry[]>([
-    { id: "1", label: "المنزل",  city: "بني سويف", district: "وسط المدينة", street: "شارع الجمهورية", building: "", isDefault: true },
-    { id: "2", label: "المكتب", city: "بني سويف", district: "منطقة الأعمال", street: "برج النيل، شارع جمال عبد الناصر", building: "", isDefault: false },
+    {
+      id: "1",
+      label: "المنزل",
+      city: "بني سويف",
+      district: "وسط المدينة",
+      street: "شارع الجمهورية",
+      building: "",
+      isDefault: true,
+    },
+    {
+      id: "2",
+      label: "المكتب",
+      city: "بني سويف",
+      district: "منطقة الأعمال",
+      street: "برج النيل، شارع جمال عبد الناصر",
+      building: "",
+      isDefault: false,
+    },
   ]);
   const [editingAddr, setEditingAddr] = useState<AddressEntry | null>(null);
   const [showAddrForm, setShowAddrForm] = useState(false);
@@ -57,8 +84,8 @@ function Profile() {
   const profileForm = useForm({
     defaultValues: {
       firstName: user?.name.split(" ")[0] ?? "",
-      lastName:  user?.name.split(" ")[1] ?? "",
-      phone:     user?.phone ?? "",
+      lastName: user?.name.split(" ")[1] ?? "",
+      phone: user?.phone ?? "",
     },
   });
 
@@ -92,7 +119,14 @@ function Profile() {
 
   const openAddAddr = () => {
     setEditingAddr(null);
-    addrForm.reset({ label: "", city: "", district: "", street: "", building: "", isDefault: false });
+    addrForm.reset({
+      label: "",
+      city: "",
+      district: "",
+      street: "",
+      building: "",
+      isDefault: false,
+    });
     setShowAddrForm(true);
   };
 
@@ -104,11 +138,11 @@ function Profile() {
 
   const saveAddress = addrForm.handleSubmit((data) => {
     const formData: AddressFormData = {
-      label:     data.label,
-      city:      data.city,
-      district:  data.district,
-      street:    data.street,
-      building:  data.building,
+      label: data.label,
+      city: data.city,
+      district: data.district,
+      street: data.street,
+      building: data.building,
       isDefault: data.isDefault ?? false,
     };
     if (editingAddr) {
@@ -130,9 +164,7 @@ function Profile() {
   };
 
   const setDefaultAddress = (id: string) => {
-    setAddresses((prev) =>
-      prev.map((a) => ({ ...a, isDefault: a.id === id })),
-    );
+    setAddresses((prev) => prev.map((a) => ({ ...a, isDefault: a.id === id })));
     toast.success("تم تعيين العنوان الافتراضي");
   };
 
@@ -191,7 +223,10 @@ function Profile() {
           <div>
             {/* ── Account Info ────────────────────────────── */}
             {tab === "profile" && (
-              <form onSubmit={handleProfileSave} className="p-10 rounded-3xl border border-border space-y-4">
+              <form
+                onSubmit={handleProfileSave}
+                className="p-10 rounded-3xl border border-border space-y-4"
+              >
                 <div className="font-display text-2xl mb-2">بيانات الحساب</div>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <SimpleField label="الاسم الأول" {...profileForm.register("firstName")} />
@@ -237,13 +272,17 @@ function Profile() {
             )}
 
             {/* ── Wishlist ───────────────────────────────── */}
-            {tab === "wishlist" && (
-              wishItems.length === 0 ? (
+            {tab === "wishlist" &&
+              (wishItems.length === 0 ? (
                 <div className="text-center p-16 rounded-3xl bg-cream">
                   <Heart className="w-10 h-10 mx-auto text-border mb-4" />
                   <div className="font-display text-2xl mt-4">لا توجد عناصر في المفضلة</div>
-                  <p className="text-muted-foreground mt-2 mb-6">اضغطي على القلب في أي منتج لحفظه.</p>
-                  <Link to="/shop" className="btn-luxe">تصفحي المتجر</Link>
+                  <p className="text-muted-foreground mt-2 mb-6">
+                    اضغطي على القلب في أي منتج لحفظه.
+                  </p>
+                  <Link to="/shop" className="btn-luxe">
+                    تصفحي المتجر
+                  </Link>
                 </div>
               ) : (
                 <div className="grid sm:grid-cols-2 gap-8">
@@ -251,8 +290,7 @@ function Profile() {
                     <ProductCard key={p.slug} product={p} />
                   ))}
                 </div>
-              )
-            )}
+              ))}
 
             {/* ── Addresses ─────────────────────────────── */}
             {tab === "addresses" && (
@@ -261,7 +299,10 @@ function Profile() {
                   <>
                     <div className="grid sm:grid-cols-2 gap-4">
                       {addresses.map((addr) => (
-                        <div key={addr.id} className="p-6 rounded-2xl border border-border relative">
+                        <div
+                          key={addr.id}
+                          className="p-6 rounded-2xl border border-border relative"
+                        >
                           {addr.isDefault && (
                             <span className="absolute top-4 left-4 text-[10px] tracking-[0.2em] uppercase text-rose-gold">
                               افتراضي
@@ -305,24 +346,56 @@ function Profile() {
                     </div>
                   </>
                 ) : (
-                  <form onSubmit={saveAddress} className="p-8 rounded-3xl border border-border space-y-4" noValidate>
+                  <form
+                    onSubmit={saveAddress}
+                    className="p-8 rounded-3xl border border-border space-y-4"
+                    noValidate
+                  >
                     <div className="font-display text-xl mb-2">
                       {editingAddr ? "تعديل العنوان" : "عنوان جديد"}
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4">
-                      <AddrField label="اسم العنوان (مثال: المنزل)" error={addrForm.formState.errors.label?.message} {...addrForm.register("label")} />
-                      <AddrField label="المدينة" error={addrForm.formState.errors.city?.message} {...addrForm.register("city")} />
-                      <AddrField label="الحي" error={addrForm.formState.errors.district?.message} {...addrForm.register("district")} />
-                      <AddrField label="الشارع" error={addrForm.formState.errors.street?.message} {...addrForm.register("street")} />
+                      <AddrField
+                        label="اسم العنوان (مثال: المنزل)"
+                        error={addrForm.formState.errors.label?.message}
+                        {...addrForm.register("label")}
+                      />
+                      <AddrField
+                        label="المدينة"
+                        error={addrForm.formState.errors.city?.message}
+                        {...addrForm.register("city")}
+                      />
+                      <AddrField
+                        label="الحي"
+                        error={addrForm.formState.errors.district?.message}
+                        {...addrForm.register("district")}
+                      />
+                      <AddrField
+                        label="الشارع"
+                        error={addrForm.formState.errors.street?.message}
+                        {...addrForm.register("street")}
+                      />
                       <AddrField label="رقم المبنى (اختياري)" {...addrForm.register("building")} />
                     </div>
                     <label className="flex items-center gap-2 text-sm cursor-pointer">
-                      <input type="checkbox" className="accent-rose-gold" {...addrForm.register("isDefault")} />
+                      <input
+                        type="checkbox"
+                        className="accent-rose-gold"
+                        {...addrForm.register("isDefault")}
+                      />
                       تعيين كعنوان افتراضي
                     </label>
                     <div className="flex gap-3 pt-2">
-                      <button type="submit" className="btn-luxe">حفظ العنوان</button>
-                      <button type="button" onClick={() => setShowAddrForm(false)} className="btn-ghost-luxe">إلغاء</button>
+                      <button type="submit" className="btn-luxe">
+                        حفظ العنوان
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowAddrForm(false)}
+                        className="btn-ghost-luxe"
+                      >
+                        إلغاء
+                      </button>
                     </div>
                   </form>
                 )}

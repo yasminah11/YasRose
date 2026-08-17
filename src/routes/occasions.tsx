@@ -66,7 +66,9 @@ function Occasions() {
         </div>
 
         <div className="mt-16 text-center">
-          <p className="text-muted-foreground text-sm">اضغط على أي مناسبة لعرض الزهور المناسبة لها</p>
+          <p className="text-muted-foreground text-sm">
+            اضغط على أي مناسبة لعرض الزهور المناسبة لها
+          </p>
         </div>
       </section>
     </Layout>

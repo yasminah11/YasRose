@@ -7,7 +7,10 @@ export const Route = createFileRoute("/categories")({
   head: () => ({
     meta: [
       { title: "التصنيفات — YasRose" },
-      { name: "description", content: "استعرض التصنيفات: الورد الجوري، الفاوانيا، الأوركيد، والتنسيقات الفاخرة." },
+      {
+        name: "description",
+        content: "استعرض التصنيفات: الورد الجوري، الفاوانيا، الأوركيد، والتنسيقات الفاخرة.",
+      },
       { property: "og:title", content: "التصنيفات — YasRose" },
       { property: "og:description", content: "ست عائلات من الزهور الفاخرة." },
     ],
@@ -21,9 +24,7 @@ function Categories() {
       <section className="container-luxe pt-4">
         <div className="max-w-2xl">
           <div className="eyebrow mb-4">تصنيفات الدار</div>
-          <h1 className="font-display text-5xl md:text-6xl leading-tight">
-            استكشفي عوالم الزهور
-          </h1>
+          <h1 className="font-display text-5xl md:text-6xl leading-tight">استكشفي عوالم الزهور</h1>
           <p className="mt-6 text-muted-foreground leading-loose">
             كل عائلة تحمل جمالها وقصتها. اختر ما يعبّر عن اللحظة التي تريدين احتضانها.
           </p>
@@ -36,7 +37,12 @@ function Categories() {
               to="/shop"
               className={`group relative overflow-hidden rounded-3xl ${i % 5 === 0 ? "md:col-span-2 aspect-[16/10]" : "aspect-[4/5]"}`}
             >
-              <img src={c.image} alt={c.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-[1400ms] group-hover:scale-105" />
+              <img
+                src={c.image}
+                alt={c.name}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-transparent" />
               <div className="absolute inset-x-8 bottom-8 text-primary-foreground">
                 <div className="text-xs tracking-[0.25em] uppercase opacity-70">{c.count} قطعة</div>

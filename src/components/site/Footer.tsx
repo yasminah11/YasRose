@@ -1,5 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram, Twitter, Facebook, ArrowLeft, MapPin, PhoneCall, Mail, Leaf } from "lucide-react";
+import {
+  Instagram,
+  Twitter,
+  Facebook,
+  ArrowLeft,
+  MapPin,
+  PhoneCall,
+  Mail,
+  Leaf,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newsletterSchema, type NewsletterFormData } from "@/lib/schemas";
@@ -23,7 +32,9 @@ export function Footer() {
               </span>
               <div>
                 <div className="font-display text-xl tracking-tight">YasRose</div>
-                <div className="text-[9px] tracking-[0.3em] text-primary-foreground/40 uppercase">Est. 2018</div>
+                <div className="text-[9px] tracking-[0.3em] text-primary-foreground/40 uppercase">
+                  Est. 2018
+                </div>
               </div>
             </div>
             <p className="text-sm text-primary-foreground/60 leading-loose max-w-xs">
@@ -32,9 +43,13 @@ export function Footer() {
 
             <div className="mt-6 space-y-2.5">
               {[
-                { icon: MapPin,    text: "بني سويف، مصر",       href: "https://maps.google.com/?q=Beni+Suef+Egypt" },
-                { icon: PhoneCall, text: "+20 82 234 5678",     href: "tel:+20822345678" },
-                { icon: Mail,      text: "hello@yasrose.eg",    href: "mailto:hello@yasrose.eg" },
+                {
+                  icon: MapPin,
+                  text: "بني سويف، مصر",
+                  href: "https://maps.google.com/?q=Beni+Suef+Egypt",
+                },
+                { icon: PhoneCall, text: "+20 82 234 5678", href: "tel:+20822345678" },
+                { icon: Mail, text: "hello@yasrose.eg", href: "mailto:hello@yasrose.eg" },
               ].map(({ icon: Icon, text, href }) => (
                 <a
                   key={text}
@@ -49,9 +64,13 @@ export function Footer() {
 
             <div className="flex gap-2 mt-6">
               {[
-                { Icon: Instagram, label: "Instagram", href: "https://instagram.com/yasrose.flowers" },
-                { Icon: Twitter,   label: "Twitter",   href: "https://twitter.com/yasrose" },
-                { Icon: Facebook,  label: "Facebook",  href: "https://facebook.com/yasrose" },
+                {
+                  Icon: Instagram,
+                  label: "Instagram",
+                  href: "https://instagram.com/yasrose.flowers",
+                },
+                { Icon: Twitter, label: "Twitter", href: "https://twitter.com/yasrose" },
+                { Icon: Facebook, label: "Facebook", href: "https://facebook.com/yasrose" },
               ].map(({ Icon, label, href }) => (
                 <a
                   key={label}
@@ -70,19 +89,19 @@ export function Footer() {
           <FooterCol
             title="التسوق"
             links={[
-              ["المتجر",       "/shop"],
-              ["التصنيفات",    "/categories"],
-              ["المناسبات",    "/occasions"],
-              ["صمّم باقتك",  "/design"],
+              ["المتجر", "/shop"],
+              ["التصنيفات", "/categories"],
+              ["المناسبات", "/occasions"],
+              ["صمّم باقتك", "/design"],
             ]}
           />
           <FooterCol
             title="مساعدة"
             links={[
-              ["تواصل معنا",     "/contact"],
-              ["تتبع الطلب",     "/track"],
+              ["تواصل معنا", "/contact"],
+              ["تتبع الطلب", "/track"],
               ["الأسئلة الشائعة", "/faq"],
-              ["من نحن",         "/about"],
+              ["من نحن", "/about"],
             ]}
           />
           <NewsletterFooter />
@@ -90,12 +109,16 @@ export function Footer() {
 
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs text-primary-foreground/45">
           <div className="flex items-center gap-1.5">
-            <Leaf className="w-3 h-3 text-emerald-400" aria-hidden />
-            © {new Date().getFullYear()} YasRose · صُنع بحب في بني سويف 🌸
+            <Leaf className="w-3 h-3 text-emerald-400" aria-hidden />© {new Date().getFullYear()}{" "}
+            YasRose · صُنع بحب في بني سويف 🌸
           </div>
           <nav aria-label="روابط قانونية" className="flex gap-4">
-            <Link to="/privacy" className="hover:text-rose-gold transition">الخصوصية</Link>
-            <Link to="/terms"   className="hover:text-rose-gold transition">الشروط</Link>
+            <Link to="/privacy" className="hover:text-rose-gold transition">
+              الخصوصية
+            </Link>
+            <Link to="/terms" className="hover:text-rose-gold transition">
+              الشروط
+            </Link>
           </nav>
         </div>
       </div>
@@ -106,7 +129,11 @@ export function Footer() {
 function NewsletterFooter() {
   const [sent, setSent] = useState(false);
 
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<NewsletterFormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<NewsletterFormData>({
     resolver: zodResolver(newsletterSchema),
   });
 
@@ -127,7 +154,9 @@ function NewsletterFooter() {
         عروض موسمية وأخبار الأتلييه، مباشرة إليك.
       </p>
       {sent ? (
-        <div className="text-sm text-rose-gold" role="status">✓ شكراً! سنرسل لك أجمل الأخبار.</div>
+        <div className="text-sm text-rose-gold" role="status">
+          ✓ شكراً! سنرسل لك أجمل الأخبار.
+        </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} noValidate aria-label="اشتراك النشرة البريدية">
           <div
@@ -135,7 +164,9 @@ function NewsletterFooter() {
               errors.email ? "border-red-400" : "border-white/20"
             }`}
           >
-            <label htmlFor="footer-email" className="sr-only">البريد الإلكتروني</label>
+            <label htmlFor="footer-email" className="sr-only">
+              البريد الإلكتروني
+            </label>
             <input
               id="footer-email"
               type="email"

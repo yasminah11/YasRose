@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  useEffect,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
 import type { Product } from "@/lib/shop-data";
 import { toast } from "sonner";
 
@@ -55,10 +48,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const isWishlisted = useCallback(
-    (slug: string) => items.some((p) => p.slug === slug),
-    [items],
-  );
+  const isWishlisted = useCallback((slug: string) => items.some((p) => p.slug === slug), [items]);
 
   const clear = useCallback(() => {
     setItems([]);

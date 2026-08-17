@@ -57,8 +57,20 @@ function useCountUp(target: number, duration = 1800, start = false) {
   return count;
 }
 
-function AnimatedStat({ prefix = "", suffix = "", number, label, icon, delay = 0 }: {
-  prefix?: string; suffix?: string; number: number | null; label: string; icon: string; delay?: number;
+function AnimatedStat({
+  prefix = "",
+  suffix = "",
+  number,
+  label,
+  icon,
+  delay = 0,
+}: {
+  prefix?: string;
+  suffix?: string;
+  number: number | null;
+  label: string;
+  icon: string;
+  delay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -67,9 +79,15 @@ function AnimatedStat({ prefix = "", suffix = "", number, label, icon, delay = 0
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setVisible(true); obs.disconnect(); }
-    }, { threshold: 0.4 });
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.4 },
+    );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
@@ -78,12 +96,22 @@ function AnimatedStat({ prefix = "", suffix = "", number, label, icon, delay = 0
     <div
       ref={ref}
       className="group relative bg-background border border-border/50 rounded-3xl p-6 hover:border-rose-gold/40 hover:shadow-soft transition-all duration-500 overflow-hidden"
-      style={{ transitionDelay: `${delay}ms`, opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: `opacity .7s ease ${delay}ms, transform .7s ease ${delay}ms, border-color .3s, box-shadow .3s` }}
+      style={{
+        transitionDelay: `${delay}ms`,
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(20px)",
+        transition: `opacity .7s ease ${delay}ms, transform .7s ease ${delay}ms, border-color .3s, box-shadow .3s`,
+      }}
     >
-      <div className="absolute -top-8 -right-8 w-20 h-20 rounded-full bg-rose-gold/5 group-hover:bg-rose-gold/10 transition-colors duration-500" aria-hidden />
+      <div
+        className="absolute -top-8 -right-8 w-20 h-20 rounded-full bg-rose-gold/5 group-hover:bg-rose-gold/10 transition-colors duration-500"
+        aria-hidden
+      />
       <div className="text-2xl mb-3">{icon}</div>
       <div className="font-display text-3xl text-shimmer">
-        {prefix}{number !== null ? count : "—"}{suffix}
+        {prefix}
+        {number !== null ? count : "—"}
+        {suffix}
       </div>
       <div className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{label}</div>
     </div>
@@ -101,12 +129,15 @@ function About() {
     els.forEach((el, i) => {
       if (!el) return;
       el.style.opacity = "0";
-      el.style.transform = i === 0 ? "translateY(40px)" : i === 1 ? "translateX(-30px)" : "translateX(30px)";
+      el.style.transform =
+        i === 0 ? "translateY(40px)" : i === 1 ? "translateX(-30px)" : "translateX(30px)";
       el.style.transition = `opacity 1s cubic-bezier(.2,.8,.2,1) ${i * 200}ms, transform 1s cubic-bezier(.2,.8,.2,1) ${i * 200}ms`;
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        el.style.opacity = "1";
-        el.style.transform = "translate(0,0)";
-      }));
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          el.style.opacity = "1";
+          el.style.transform = "translate(0,0)";
+        }),
+      );
     });
   }, []);
 
@@ -115,8 +146,22 @@ function About() {
       {/* ─── Hero ─── */}
       <section className="relative overflow-hidden bg-cream min-h-[60vh] flex items-center">
         <FloatingPetals />
-        <div className="absolute top-0 right-0 w-[50vw] h-[50vw] rounded-full pointer-events-none" style={{ background: "radial-gradient(ellipse, oklch(0.96 0.028 10 / 0.4) 0%, transparent 65%)", transform: "translate(20%, -30%)" }} aria-hidden />
-        <div className="absolute bottom-0 left-0 w-[35vw] h-[35vw] rounded-full pointer-events-none" style={{ background: "radial-gradient(ellipse, oklch(0.88 0.04 50 / 0.08) 0%, transparent 70%)", transform: "translate(-15%, 20%)" }} aria-hidden />
+        <div
+          className="absolute top-0 right-0 w-[50vw] h-[50vw] rounded-full pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse, oklch(0.96 0.028 10 / 0.4) 0%, transparent 65%)",
+            transform: "translate(20%, -30%)",
+          }}
+          aria-hidden
+        />
+        <div
+          className="absolute bottom-0 left-0 w-[35vw] h-[35vw] rounded-full pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse, oklch(0.88 0.04 50 / 0.08) 0%, transparent 70%)",
+            transform: "translate(-15%, 20%)",
+          }}
+          aria-hidden
+        />
         <div className="container-luxe pt-36 pb-24 w-full">
           <div ref={heroRef} className="max-w-3xl">
             <div className="flex items-center gap-3 mb-6">
@@ -125,7 +170,10 @@ function About() {
             </div>
             <h1 className="font-display text-5xl md:text-7xl leading-[0.92] tracking-tight">
               وُلدت YasRose
-              <span className="block italic font-light mt-2 text-rose-gold/90" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              <span
+                className="block italic font-light mt-2 text-rose-gold/90"
+                style={{ fontFamily: "'Cormorant Garamond', serif" }}
+              >
                 من عشق التفاصيل الصغيرة
               </span>
             </h1>
@@ -134,7 +182,10 @@ function About() {
             </p>
             {/* animated line */}
             <div className="mt-10 flex items-center gap-4">
-              <div className="h-px bg-gradient-to-r from-rose-gold to-transparent w-24" style={{ animation: "grow-width 1.5s ease-out 0.8s both" }} />
+              <div
+                className="h-px bg-gradient-to-r from-rose-gold to-transparent w-24"
+                style={{ animation: "grow-width 1.5s ease-out 0.8s both" }}
+              />
               <Sparkles className="w-4 h-4 text-rose-gold/60" />
             </div>
           </div>
@@ -176,7 +227,9 @@ function About() {
             </div>
             {/* Floating badge */}
             <div className="absolute -bottom-6 -right-6 card-glass rounded-3xl p-6 shadow-soft border border-border/40">
-              <div className="text-[10px] tracking-[0.2em] uppercase text-rose-gold mb-2">تأسس عام</div>
+              <div className="text-[10px] tracking-[0.2em] uppercase text-rose-gold mb-2">
+                تأسس عام
+              </div>
               <div className="font-display text-4xl text-shimmer">٢٠١٨</div>
               <div className="text-xs text-muted-foreground mt-1">بني سويف · مصر</div>
             </div>
@@ -196,12 +249,12 @@ function About() {
 
           <div ref={textRef} className="space-y-8">
             <p className="text-muted-foreground leading-loose text-lg">
-              في عام ٢٠١٨، افتُتحت أبواب أتلييه YasRose في قلب بني سويف، بهدف واحد: تقديم زهور
-              فاخرة بتنسيق يليق باللحظات الاستثنائية.
+              في عام ٢٠١٨، افتُتحت أبواب أتلييه YasRose في قلب بني سويف، بهدف واحد: تقديم زهور فاخرة
+              بتنسيق يليق باللحظات الاستثنائية.
             </p>
             <p className="text-muted-foreground leading-loose text-lg">
-              كل باقة تخرج من الأتلييه هي عمل فني صغير — تُصمم يدوياً على يد مصممين درسوا الفن الفلورالي
-              في باريس وأمستردام، باستخدام زهور طازجة نستوردها ثلاث مرات أسبوعياً.
+              كل باقة تخرج من الأتلييه هي عمل فني صغير — تُصمم يدوياً على يد مصممين درسوا الفن
+              الفلورالي في باريس وأمستردام، باستخدام زهور طازجة نستوردها ثلاث مرات أسبوعياً.
             </p>
             <p className="text-muted-foreground leading-loose text-lg">
               نحن لا نُنسق زهوراً فحسب — نُنسّق طقوس الاحتفاء بمن نحبهم.
@@ -210,11 +263,26 @@ function About() {
             {/* Values */}
             <div className="mt-10 space-y-5">
               {[
-                { icon: Heart, title: "الحرفية أولاً", desc: "كل باقة تُصمم يدوياً في بني سويف، بلمسة مصممي الدار الذين يُتقنون ما يصنعون." },
-                { icon: Leaf, title: "الاستدامة", desc: "شراكات مع مزارع أوروبية معتمدة، وتغليف قابل لإعادة التدوير." },
-                { icon: Star, title: "اللمسة الاستثنائية", desc: "بطاقة إهداء مكتوبة بخط اليد مع كل طلب — لأن التفاصيل هي ما يُحفر في الذاكرة." },
+                {
+                  icon: Heart,
+                  title: "الحرفية أولاً",
+                  desc: "كل باقة تُصمم يدوياً في بني سويف، بلمسة مصممي الدار الذين يُتقنون ما يصنعون.",
+                },
+                {
+                  icon: Leaf,
+                  title: "الاستدامة",
+                  desc: "شراكات مع مزارع أوروبية معتمدة، وتغليف قابل لإعادة التدوير.",
+                },
+                {
+                  icon: Star,
+                  title: "اللمسة الاستثنائية",
+                  desc: "بطاقة إهداء مكتوبة بخط اليد مع كل طلب — لأن التفاصيل هي ما يُحفر في الذاكرة.",
+                },
               ].map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="flex gap-5 p-5 rounded-2xl border border-border/50 hover:border-rose-gold/30 transition-colors duration-300 group">
+                <div
+                  key={title}
+                  className="flex gap-5 p-5 rounded-2xl border border-border/50 hover:border-rose-gold/30 transition-colors duration-300 group"
+                >
                   <div className="w-11 h-11 rounded-xl bg-blush grid place-items-center shrink-0 group-hover:bg-rose-gold/20 transition">
                     <Icon className="w-5 h-5 text-rose-gold" />
                   </div>
@@ -237,7 +305,10 @@ function About() {
               <div className="eyebrow text-rose-gold mb-4">أرقام تحكي</div>
               <h2 className="font-display text-4xl md:text-5xl leading-tight">
                 كل رقم خلفه
-                <span className="block italic font-light mt-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                <span
+                  className="block italic font-light mt-1"
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
                   حكاية إنسانية
                 </span>
               </h2>
@@ -249,9 +320,14 @@ function About() {
                 { n: "٩٨٪", l: "رضا العملاء" },
                 { n: "٧ سنوات", l: "من الحرفية" },
               ].map(({ n, l }) => (
-                <div key={l} className="border border-white/10 rounded-2xl p-6 hover:border-rose-gold/40 transition">
+                <div
+                  key={l}
+                  className="border border-white/10 rounded-2xl p-6 hover:border-rose-gold/40 transition"
+                >
                   <div className="font-display text-3xl md:text-4xl text-shimmer">{n}</div>
-                  <div className="text-xs text-primary-foreground/50 mt-2 tracking-[0.12em] uppercase">{l}</div>
+                  <div className="text-xs text-primary-foreground/50 mt-2 tracking-[0.12em] uppercase">
+                    {l}
+                  </div>
                 </div>
               ))}
             </div>
@@ -266,26 +342,53 @@ function About() {
             <div className="eyebrow mb-4">خلف الكواليس</div>
             <h2 className="font-display text-4xl md:text-5xl">فريق يصنع الجمال كل يوم</h2>
             <p className="mt-5 text-muted-foreground leading-loose max-w-xl mx-auto">
-              كل صباح من الساعة السادسة، يبدأ فريقنا باختيار أجمل الزهور يدوياً لضمان طزاجتها وأناقتها.
+              كل صباح من الساعة السادسة، يبدأ فريقنا باختيار أجمل الزهور يدوياً لضمان طزاجتها
+              وأناقتها.
             </p>
           </div>
 
           {/* Big atelier image */}
           <div className="relative rounded-[40px] overflow-hidden aspect-[21/9]">
-            <img src={IMG.atelier} alt="فريق أتلييه YasRose" className="w-full h-full object-cover" loading="lazy" />
+            <img
+              src={IMG.atelier}
+              alt="فريق أتلييه YasRose"
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-transparent" />
             <div className="absolute bottom-10 right-10 text-primary-foreground">
               <div className="font-display text-3xl md:text-5xl">أتلييه بني سويف</div>
-              <div className="text-sm text-primary-foreground/70 mt-2 tracking-[0.2em]">مصر · منذ ٢٠١٨</div>
+              <div className="text-sm text-primary-foreground/70 mt-2 tracking-[0.2em]">
+                مصر · منذ ٢٠١٨
+              </div>
             </div>
           </div>
 
           {/* Animated team stats */}
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <AnimatedStat number={8}    label="مصمم متخصص في فن الزهور"   icon="🌸" delay={0}   />
-            <AnimatedStat number={6}    suffix=" ص" label="بداية يومنا — كل يوم بلا استثناء"  icon="⏰" delay={100} />
-            <AnimatedStat number={1200} prefix="+" suffix="" label="باقة تُنسّق بعناية كل شهر"  icon="💐" delay={200} />
-            <AnimatedStat number={3}    suffix="× أسبوعياً" label="استيراد زهور طازجة من أوروبا" icon="✈️" delay={300} />
+            <AnimatedStat number={8} label="مصمم متخصص في فن الزهور" icon="🌸" delay={0} />
+            <AnimatedStat
+              number={6}
+              suffix=" ص"
+              label="بداية يومنا — كل يوم بلا استثناء"
+              icon="⏰"
+              delay={100}
+            />
+            <AnimatedStat
+              number={1200}
+              prefix="+"
+              suffix=""
+              label="باقة تُنسّق بعناية كل شهر"
+              icon="💐"
+              delay={200}
+            />
+            <AnimatedStat
+              number={3}
+              suffix="× أسبوعياً"
+              label="استيراد زهور طازجة من أوروبا"
+              icon="✈️"
+              delay={300}
+            />
           </div>
         </div>
       </section>

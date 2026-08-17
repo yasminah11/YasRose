@@ -33,8 +33,8 @@ type OrderStep = {
 
 // Demo steps for display (replace data with API response)
 const buildSteps = (status: string): OrderStep[] => [
-  { icon: Check,     title: "تم استلام الطلب",      time: "الأربعاء ١٠:٢٤ ص", done: true },
-  { icon: Sparkles,  title: "قيد التنسيق في الأتلييه", time: "الأربعاء ١١:١٠ ص", done: true },
+  { icon: Check, title: "تم استلام الطلب", time: "الأربعاء ١٠:٢٤ ص", done: true },
+  { icon: Sparkles, title: "قيد التنسيق في الأتلييه", time: "الأربعاء ١١:١٠ ص", done: true },
   {
     icon: Package,
     title: "جاهز للتوصيل",
@@ -61,9 +61,9 @@ function Track() {
   const { orderId: urlOrderId } = Route.useSearch();
   const navigate = useNavigate({ from: "/track" });
 
-  const [inputId, setInputId]     = useState(urlOrderId ?? "");
-  const [loading, setLoading]     = useState(false);
-  const [error, setError]         = useState("");
+  const [inputId, setInputId] = useState(urlOrderId ?? "");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [orderData, setOrderData] = useState<{ id: string; status: string } | null>(
     urlOrderId ? { id: urlOrderId, status: "ready" } : null,
   );
@@ -71,12 +71,18 @@ function Track() {
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     const id = inputId.trim();
-    if (!id) { setError("أدخلي رقم الطلب"); return; }
+    if (!id) {
+      setError("أدخلي رقم الطلب");
+      return;
+    }
     setError("");
     setLoading(true);
     try {
       const data = await ordersApi.getById(id);
-      setOrderData({ id: (data as { id: string; status: string }).id, status: (data as { id: string; status: string }).status });
+      setOrderData({
+        id: (data as { id: string; status: string }).id,
+        status: (data as { id: string; status: string }).status,
+      });
       navigate({ search: { orderId: id } });
     } catch {
       // Mock fallback for demo

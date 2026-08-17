@@ -8,7 +8,10 @@ export const Route = createFileRoute("/wishlist")({
   head: () => ({
     meta: [
       { title: "المفضلة — YasRose" },
-      { name: "description", content: "قائمة التوليفات المفضلة لديك، محفوظة لتعودي إليها متى تشائين." },
+      {
+        name: "description",
+        content: "قائمة التوليفات المفضلة لديك، محفوظة لتعودي إليها متى تشائين.",
+      },
       { property: "og:title", content: "المفضلة — YasRose" },
       { property: "og:description", content: "توليفاتك المحفوظة." },
     ],
@@ -38,7 +41,9 @@ function Wishlist() {
             <Heart className="w-16 h-16 mx-auto text-border mb-6" />
             <div className="font-display text-3xl mb-3">قائمتك فارغة حتى الآن</div>
             <p className="text-muted-foreground mb-8">اضغطي على القلب في أي منتج لحفظه هنا.</p>
-            <Link to="/shop" className="btn-luxe">استعرض المتجر</Link>
+            <Link to="/shop" className="btn-luxe">
+              استعرض المتجر
+            </Link>
           </div>
         ) : (
           <>
@@ -50,8 +55,12 @@ function Wishlist() {
 
             <div className="mt-24 p-12 rounded-3xl bg-cream text-center">
               <div className="font-display text-2xl">تبحثين عن المزيد؟</div>
-              <p className="mt-3 text-muted-foreground">اكتشف مجموعتنا الكاملة من التصاميم المُنسقة يدوياً.</p>
-              <Link to="/shop" className="btn-luxe mt-8">تصفحي المتجر</Link>
+              <p className="mt-3 text-muted-foreground">
+                اكتشف مجموعتنا الكاملة من التصاميم المُنسقة يدوياً.
+              </p>
+              <Link to="/shop" className="btn-luxe mt-8">
+                تصفحي المتجر
+              </Link>
             </div>
           </>
         )}

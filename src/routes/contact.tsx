@@ -96,10 +96,26 @@ function Contact() {
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <Field label="الاسم الكامل" placeholder="فاطمة محمد" error={errors.name?.message} {...register("name")} />
-                  <Field label="الجوال" placeholder="01012345678" error={errors.phone?.message} {...register("phone")} />
+                  <Field
+                    label="الاسم الكامل"
+                    placeholder="فاطمة محمد"
+                    error={errors.name?.message}
+                    {...register("name")}
+                  />
+                  <Field
+                    label="الجوال"
+                    placeholder="01012345678"
+                    error={errors.phone?.message}
+                    {...register("phone")}
+                  />
                 </div>
-                <Field label="البريد الإلكتروني" type="email" placeholder="example@email.com" error={errors.email?.message} {...register("email")} />
+                <Field
+                  label="البريد الإلكتروني"
+                  type="email"
+                  placeholder="example@email.com"
+                  error={errors.email?.message}
+                  {...register("email")}
+                />
 
                 <div>
                   <span className="text-xs text-muted-foreground">نوع الاستفسار</span>
@@ -109,11 +125,15 @@ function Contact() {
                     }`}
                     {...register("type")}
                   >
-                    {["استفسار عام", "طلب مخصص", "تنسيق أعراس", "طلب شركات", "شكوى أو اقتراح"].map((t) => (
-                      <option key={t}>{t}</option>
-                    ))}
+                    {["استفسار عام", "طلب مخصص", "تنسيق أعراس", "طلب شركات", "شكوى أو اقتراح"].map(
+                      (t) => (
+                        <option key={t}>{t}</option>
+                      ),
+                    )}
                   </select>
-                  {errors.type && <p className="mt-1 text-xs text-destructive">{errors.type.message}</p>}
+                  {errors.type && (
+                    <p className="mt-1 text-xs text-destructive">{errors.type.message}</p>
+                  )}
                 </div>
 
                 <div>
@@ -132,7 +152,11 @@ function Contact() {
                   )}
                 </div>
 
-                <button type="submit" disabled={isSubmitting} className="btn-luxe w-full disabled:opacity-60">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn-luxe w-full disabled:opacity-60"
+                >
                   {isSubmitting ? "جارٍ الإرسال..." : "إرسال الرسالة"}
                 </button>
               </form>
@@ -146,7 +170,12 @@ function Contact() {
 
 const Field = forwardRef<
   HTMLInputElement,
-  { label: string; type?: string; placeholder?: string; error?: string } & React.InputHTMLAttributes<HTMLInputElement>
+  {
+    label: string;
+    type?: string;
+    placeholder?: string;
+    error?: string;
+  } & React.InputHTMLAttributes<HTMLInputElement>
 >(({ label, type = "text", placeholder, error, ...rest }, ref) => (
   <label className="block">
     <span className="text-xs text-muted-foreground">{label}</span>
