@@ -269,21 +269,23 @@ ${JSON.stringify(productSummary, null, 2)}
     const clean = text.replace(/```json|```/g, "").trim();
     const parsed = JSON.parse(clean);
 
-    return parsed.recommendations.map((r: { slug?: string; name?: string; reason?: string }) => {
-      const product = shopProducts.find((p) => p.slug === r.slug) ?? shopProducts[0];
-      return {
-        slug: product.slug,
-        name: product.name,
-        tagline: product.tagline,
-        price: product.price,
-        currency: product.currency,
-        image: product.image,
-        rating: product.rating,
-        reviews: product.reviews,
-        match: r.match ?? 95,
-        reason: r.reason ?? "توصية مخصصة لأسلوبك",
-      };
-    });
+    return parsed.recommendations.map(
+      (r: { slug?: string; name?: string; reason?: string; match?: number }) => {
+        const product = shopProducts.find((p) => p.slug === r.slug) ?? shopProducts[0];
+        return {
+          slug: product.slug,
+          name: product.name,
+          tagline: product.tagline,
+          price: product.price,
+          currency: product.currency,
+          image: product.image,
+          rating: product.rating,
+          reviews: product.reviews,
+          match: r.match ?? 95,
+          reason: r.reason ?? "توصية مخصصة لأسلوبك",
+        };
+      },
+    );
   } catch {
     // Groq fallback if key is set
     const groqKey = import.meta.env.VITE_GROQ_KEY ?? "";
@@ -315,7 +317,7 @@ ${JSON.stringify(productSummary, null, 2)}
         const gtext = data.choices?.[0]?.message?.content ?? "";
         const gparsed = JSON.parse(gtext.replace(/```json|```/g, "").trim());
         return gparsed.recommendations.map(
-          (r: { slug?: string; name?: string; reason?: string }) => {
+          (r: { slug?: string; name?: string; reason?: string; match?: number }) => {
             const product = shopProducts.find((p) => p.slug === r.slug) ?? shopProducts[0];
             return {
               slug: product.slug,
