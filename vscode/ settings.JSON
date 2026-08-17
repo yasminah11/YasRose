@@ -1,11 +1,7 @@
 {
   "css.validate": false,
   "scss.validate": false,
-  "less.validate": false,
   "stylelint.enable": false,
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "eslint.rules.customizations": [
     { "rule": "react-refresh/only-export-components", "severity": "off" }
   ]
