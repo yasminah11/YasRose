@@ -6,9 +6,7 @@ import { useEffect } from "react";
  */
 export function useReveal(rootSelector?: string) {
   useEffect(() => {
-    const root = rootSelector
-      ? document.querySelector(rootSelector)
-      : document;
+    const root = rootSelector ? document.querySelector(rootSelector) : document;
 
     if (!root) return;
 

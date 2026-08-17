@@ -269,7 +269,7 @@ ${JSON.stringify(productSummary, null, 2)}
     const clean = text.replace(/```json|```/g, "").trim();
     const parsed = JSON.parse(clean);
 
-    return parsed.recommendations.map((r: any) => {
+    return parsed.recommendations.map((r: { slug?: string; name?: string; reason?: string }) => {
       const product = shopProducts.find((p) => p.slug === r.slug) ?? shopProducts[0];
       return {
         slug: product.slug,
@@ -314,21 +314,23 @@ ${JSON.stringify(productSummary, null, 2)}
         const data = await res.json();
         const gtext = data.choices?.[0]?.message?.content ?? "";
         const gparsed = JSON.parse(gtext.replace(/```json|```/g, "").trim());
-        return gparsed.recommendations.map((r: any) => {
-          const product = shopProducts.find((p) => p.slug === r.slug) ?? shopProducts[0];
-          return {
-            slug: product.slug,
-            name: product.name,
-            tagline: product.tagline,
-            price: product.price,
-            currency: product.currency,
-            image: product.image,
-            rating: product.rating,
-            reviews: product.reviews,
-            match: r.match ?? 95,
-            reason: r.reason ?? "توصية مخصصة",
-          };
-        });
+        return gparsed.recommendations.map(
+          (r: { slug?: string; name?: string; reason?: string }) => {
+            const product = shopProducts.find((p) => p.slug === r.slug) ?? shopProducts[0];
+            return {
+              slug: product.slug,
+              name: product.name,
+              tagline: product.tagline,
+              price: product.price,
+              currency: product.currency,
+              image: product.image,
+              rating: product.rating,
+              reviews: product.reviews,
+              match: r.match ?? 95,
+              reason: r.reason ?? "توصية مخصصة",
+            };
+          },
+        );
       } catch {
         /* fall to local scoring */
       }
@@ -391,7 +393,7 @@ ${JSON.stringify(productSummary, null, 2)}
           if (
             colorKeywords.some((c) =>
               p.colors?.some(
-                (pc: any) =>
+                (pc: { name?: string; hex?: string }) =>
                   pc.name?.toLowerCase().includes(c) || pc.hex?.toLowerCase().includes(c),
               ),
             )

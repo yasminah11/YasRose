@@ -26,9 +26,7 @@ export function useProductImage(productName: string, fallback: string): string {
     }
 
     // Derive English search term from Arabic name
-    const arabicWord = Object.keys(FLOWER_EN_MAP).find((ar) =>
-      productName.includes(ar)
-    );
+    const arabicWord = Object.keys(FLOWER_EN_MAP).find((ar) => productName.includes(ar));
     const query = arabicWord
       ? `${FLOWER_EN_MAP[arabicWord]} flower bouquet`
       : `${productName} flower bouquet`;
@@ -48,7 +46,7 @@ export function useProductImage(productName: string, fallback: string): string {
             `?query=${encodeURIComponent(query)}` +
             `&per_page=1&orientation=portrait` +
             `&client_id=${UNSPLASH_KEY}`,
-          { headers: { "Accept-Version": "v1" } }
+          { headers: { "Accept-Version": "v1" } },
         );
         if (!res.ok) return;
         const data = await res.json();

@@ -27,8 +27,7 @@ import {
 } from "lucide-react";
 import { useMemo, useRef, useState, useEffect, useCallback } from "react";
 import { Layout } from "@/components/site/Layout";
-import { IMG, type Product } from "@/lib/shop-data";
-import { useCart } from "@/contexts/CartContext";
+import { IMG } from "@/lib/shop-data";
 
 export const Route = createFileRoute("/design")({
   head: () => ({
@@ -189,6 +188,7 @@ const VASES = [
 ];
 
 type Design = {
+  name: string;
   flowers: Record<FlowerKey, number>;
   size: string;
   wrap: string;
@@ -208,6 +208,7 @@ const emptyFlowers = FLOWERS.reduce(
   {} as Record<FlowerKey, number>,
 );
 const initial: Design = {
+  name: "",
   flowers: { ...emptyFlowers, rose: 5 },
   size: "m",
   wrap: "white",
@@ -710,7 +711,7 @@ function BouquetSVG({
   W?: number;
   H?: number;
   showBadges?: boolean;
-  totals?: any;
+  totals?: Record<string, number>;
 }) {
   const uidRef = useRef("");
   if (!uidRef.current) uidRef.current = `b${++_uid}`;
@@ -824,7 +825,6 @@ function BouquetSVG({
 
 function DesignPage() {
   const navigate = useNavigate({ from: "/design" });
-  const { addToCart } = useCart();
   const [design, setDesign] = useState<Design>(initial);
   const [step, setStep] = useState(0);
   const [finalized, setFinalized] = useState(false);
@@ -836,7 +836,9 @@ function DesignPage() {
     try {
       const raw = localStorage.getItem("fn-bouquet-design-page");
       if (raw) setDesign({ ...initial, ...JSON.parse(raw) });
-    } catch {}
+    } catch (_) {
+      /* ignore */
+    }
   }, []);
 
   const update = useCallback((patch: Partial<Design>) => {
@@ -846,7 +848,9 @@ function DesignPage() {
       const next = { ...prev, ...patch };
       try {
         localStorage.setItem("fn-bouquet-design-page", JSON.stringify(next));
-      } catch {}
+      } catch (_) {
+        /* ignore */
+      }
       return next;
     });
   }, []);
@@ -944,31 +948,8 @@ function DesignPage() {
     );
   };
   const handleAddToCart = () => {
-    // Build a pseudo-product from the custom design
-    const customProduct: Product = {
-      slug: `custom-bouquet-${Date.now()}`,
-      name: design.name || "باقة مخصصة",
-      tagline: activeFlowers.map((f) => f.name).join("، ") || "تصميم خاص",
-      price: totals.total,
-      oldPrice: undefined,
-      currency: "ج.م",
-      image: IMG.hero,
-      gallery: [IMG.hero],
-      rating: 5,
-      reviews: 0,
-      colors: [],
-      sizes: [{ name: "مخصص", extra: 0 }],
-      meaning: "تصميم خاص بك",
-      description: `باقة مصممة يدوياً: ${activeFlowers.map((f) => f.name).join("، ")} — تغليف ${wrap.name} — شريط ${ribbon.name}`,
-      category: "تصاميم مخصصة",
-      occasion: [],
-    };
-    addToCart(customProduct);
     setAddedToCart(true);
-    setTimeout(() => {
-      setAddedToCart(false);
-      navigate({ to: "/cart" });
-    }, 1200);
+    setTimeout(() => setAddedToCart(false), 3000);
   };
 
   // dominant color for accent tinting
@@ -1714,7 +1695,7 @@ function BouquetPreview({
   wrap: (typeof WRAPS)[0];
   ribbon: (typeof RIBBONS)[0];
   activeFlowers: typeof FLOWERS;
-  totals: any;
+  totals: Record<string, number>;
   vase: (typeof VASES)[0];
 }) {
   const size = SIZES.find((s) => s.key === design.size)!;

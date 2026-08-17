@@ -632,13 +632,17 @@ export function BouquetStudio({ open, onClose }: { open: boolean; onClose: () =>
   useEffect(() => {
     try {
       localStorage.setItem("fn-bouquet-design", JSON.stringify(design));
-    } catch {}
+    } catch (_) {
+      /* ignore */
+    }
   }, [design]);
   useEffect(() => {
     try {
       const raw = localStorage.getItem("fn-bouquet-design");
       if (raw) setDesign({ ...initial, ...JSON.parse(raw) });
-    } catch {}
+    } catch (_) {
+      /* ignore */
+    }
   }, []);
 
   const update = (patch: Partial<Design>) => {
