@@ -39,27 +39,27 @@
  */
 
 // ─── Config ────────────────────────────────────────────────────────
-const UNSPLASH_KEY  = import.meta.env.VITE_UNSPLASH_KEY ?? "";
-const PERENUAL_KEY  = import.meta.env.VITE_PERENUAL_KEY ?? "";
+const UNSPLASH_KEY = import.meta.env.VITE_UNSPLASH_KEY ?? "";
+const PERENUAL_KEY = import.meta.env.VITE_PERENUAL_KEY ?? "";
 
 // Arabic → English flower name mapping
 export const FLOWER_EN_MAP: Record<string, string> = {
-  "ورد جوري":   "rose",
-  "توليب":      "tulip",
-  "زنبق":       "lily",
-  "فاوانيا":    "peony",
-  "أوركيد":     "orchid",
+  "ورد جوري": "rose",
+  توليب: "tulip",
+  زنبق: "lily",
+  فاوانيا: "peony",
+  أوركيد: "orchid",
   "عباد الشمس": "sunflower",
-  "هيدرانجيا":  "hydrangea",
-  "قرنفل":      "carnation",
-  "لافندر":     "lavender",
-  "ياسمين":     "jasmine",
-  "بنفسج":      "violet",
+  هيدرانجيا: "hydrangea",
+  قرنفل: "carnation",
+  لافندر: "lavender",
+  ياسمين: "jasmine",
+  بنفسج: "violet",
 };
 
 // ─── Unsplash Types ────────────────────────────────────────────────
 export type UnsplashPhoto = {
-  id:   string;
+  id: string;
   urls: { raw: string; full: string; regular: string; small: string; thumb: string };
   alt_description: string | null;
   user: { name: string; username: string };
@@ -72,7 +72,10 @@ export type UnsplashPhoto = {
  */
 export async function fetchFlowerImage(
   arabicName: string,
-  options: { orientation?: "portrait" | "landscape" | "squarish"; size?: "small" | "regular" | "full" } = {}
+  options: {
+    orientation?: "portrait" | "landscape" | "squarish";
+    size?: "small" | "regular" | "full";
+  } = {},
 ): Promise<UnsplashPhoto | null> {
   if (!UNSPLASH_KEY || UNSPLASH_KEY === "YOUR_UNSPLASH_KEY") return null;
 
@@ -83,10 +86,10 @@ export async function fetchFlowerImage(
   try {
     const res = await fetch(
       `https://api.unsplash.com/search/photos?` +
-      `query=${encodeURIComponent(query)}&` +
-      `per_page=1&orientation=${orientation}&` +
-      `client_id=${UNSPLASH_KEY}`,
-      { headers: { "Accept-Version": "v1" } }
+        `query=${encodeURIComponent(query)}&` +
+        `per_page=1&orientation=${orientation}&` +
+        `client_id=${UNSPLASH_KEY}`,
+      { headers: { "Accept-Version": "v1" } },
     );
     if (!res.ok) return null;
     const data = await res.json();
@@ -108,9 +111,9 @@ export async function fetchFlowerGallery(arabicName: string, count = 6): Promise
   try {
     const res = await fetch(
       `https://api.unsplash.com/search/photos?` +
-      `query=${encodeURIComponent(englishName + " flower")}&` +
-      `per_page=${count}&client_id=${UNSPLASH_KEY}`,
-      { headers: { "Accept-Version": "v1" } }
+        `query=${encodeURIComponent(englishName + " flower")}&` +
+        `per_page=${count}&client_id=${UNSPLASH_KEY}`,
+      { headers: { "Accept-Version": "v1" } },
     );
     if (!res.ok) return [];
     const data = await res.json();
@@ -122,19 +125,19 @@ export async function fetchFlowerGallery(arabicName: string, count = 6): Promise
 
 // ─── Perenual Types ────────────────────────────────────────────────
 export type PerenualSpecies = {
-  id:          number;
+  id: number;
   common_name: string;
   scientific_name: string[];
-  other_name:  string[];
-  watering:    string;
-  sunlight:    string[];
-  cycle:       string;
+  other_name: string[];
+  watering: string;
+  sunlight: string[];
+  cycle: string;
   default_image?: {
     original_url: string;
-    regular_url:  string;
-    medium_url:   string;
-    small_url:    string;
-    thumbnail:    string;
+    regular_url: string;
+    medium_url: string;
+    small_url: string;
+    thumbnail: string;
   };
   flower?: {
     color: string[];
@@ -143,15 +146,15 @@ export type PerenualSpecies = {
 };
 
 export type PlantInfo = {
-  commonName:   string;
+  commonName: string;
   scientificName: string;
-  watering:     string;
-  sunlight:     string;
-  cycle:        string;
+  watering: string;
+  sunlight: string;
+  cycle: string;
   flowerColors: string[];
-  bloomSeason:  string;
-  imageUrl:     string | null;
-  careGuide:    string; // human-readable Arabic summary
+  bloomSeason: string;
+  imageUrl: string | null;
+  careGuide: string; // human-readable Arabic summary
 };
 
 /**
@@ -165,7 +168,7 @@ export async function fetchPlantInfo(arabicName: string): Promise<PlantInfo | nu
 
   try {
     const res = await fetch(
-      `https://perenual.com/api/species-list?key=${PERENUAL_KEY}&q=${encodeURIComponent(englishName)}&page=1`
+      `https://perenual.com/api/species-list?key=${PERENUAL_KEY}&q=${encodeURIComponent(englishName)}&page=1`,
     );
     if (!res.ok) return null;
     const data = await res.json();
@@ -175,30 +178,32 @@ export async function fetchPlantInfo(arabicName: string): Promise<PlantInfo | nu
     // Build Arabic care guide
     const wateringAr: Record<string, string> = {
       frequent: "ري متكرر يومياً",
-      average:  "ري معتدل كل 2-3 أيام",
-      minimum:  "ري خفيف مرة أسبوعياً",
-      none:     "لا يحتاج ري",
+      average: "ري معتدل كل 2-3 أيام",
+      minimum: "ري خفيف مرة أسبوعياً",
+      none: "لا يحتاج ري",
     };
     const sunlightAr: Record<string, string> = {
-      "full_sun":        "ضوء شمس كامل",
-      "part_shade":      "ضوء جزئي",
-      "full_shade":      "ظل كامل",
-      "sun-part_shade":  "شمس وظل متقطع",
+      full_sun: "ضوء شمس كامل",
+      part_shade: "ضوء جزئي",
+      full_shade: "ظل كامل",
+      "sun-part_shade": "شمس وظل متقطع",
     };
 
-    const waterText   = wateringAr[plant.watering?.toLowerCase() ?? ""] ?? "ري معتدل";
-    const sunText     = plant.sunlight?.[0] ? sunlightAr[plant.sunlight[0]] ?? plant.sunlight[0] : "ضوء غير مباشر";
+    const waterText = wateringAr[plant.watering?.toLowerCase() ?? ""] ?? "ري معتدل";
+    const sunText = plant.sunlight?.[0]
+      ? (sunlightAr[plant.sunlight[0]] ?? plant.sunlight[0])
+      : "ضوء غير مباشر";
 
     return {
-      commonName:    plant.common_name,
-      scientificName:plant.scientific_name?.[0] ?? "",
-      watering:      plant.watering ?? "average",
-      sunlight:      plant.sunlight?.[0] ?? "",
-      cycle:         plant.cycle ?? "",
-      flowerColors:  plant.flower?.color ?? [],
-      bloomSeason:   plant.flower?.bloom_season ?? "",
-      imageUrl:      plant.default_image?.regular_url ?? null,
-      careGuide:     `${waterText} · ${sunText}${plant.flower?.bloom_season ? ` · موسم التزهير: ${plant.flower.bloom_season}` : ""}`,
+      commonName: plant.common_name,
+      scientificName: plant.scientific_name?.[0] ?? "",
+      watering: plant.watering ?? "average",
+      sunlight: plant.sunlight?.[0] ?? "",
+      cycle: plant.cycle ?? "",
+      flowerColors: plant.flower?.color ?? [],
+      bloomSeason: plant.flower?.bloom_season ?? "",
+      imageUrl: plant.default_image?.regular_url ?? null,
+      careGuide: `${waterText} · ${sunText}${plant.flower?.bloom_season ? ` · موسم التزهير: ${plant.flower.bloom_season}` : ""}`,
     };
   } catch {
     return null;
@@ -207,12 +212,12 @@ export async function fetchPlantInfo(arabicName: string): Promise<PlantInfo | nu
 
 // ─── Combined Flower Data ──────────────────────────────────────────
 export type EnrichedFlower = {
-  arabicName:  string;
+  arabicName: string;
   englishName: string;
-  image:       string | null;
+  image: string | null;
   photographer?: string;
-  plantInfo:   PlantInfo | null;
-  source:      "unsplash+perenual" | "unsplash" | "perenual" | "none";
+  plantInfo: PlantInfo | null;
+  source: "unsplash+perenual" | "unsplash" | "perenual" | "none";
 };
 
 /**
@@ -226,17 +231,15 @@ export async function fetchEnrichedFlower(arabicName: string): Promise<EnrichedF
   ]);
 
   const imageUrl = photo?.urls?.regular ?? info?.imageUrl ?? null;
-  const source   = photo && info ? "unsplash+perenual"
-                 : photo          ? "unsplash"
-                 : info           ? "perenual"
-                 : "none";
+  const source =
+    photo && info ? "unsplash+perenual" : photo ? "unsplash" : info ? "perenual" : "none";
 
   return {
     arabicName,
     englishName: FLOWER_EN_MAP[arabicName] ?? arabicName,
-    image:       imageUrl,
+    image: imageUrl,
     photographer: photo?.user?.name,
-    plantInfo:   info,
+    plantInfo: info,
     source,
   };
 }

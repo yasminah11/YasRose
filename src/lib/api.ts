@@ -29,10 +29,7 @@ export class ApiError extends Error {
 }
 
 // ─── Core fetch wrapper ───────────────────────────────────────────
-async function request<T>(
-  endpoint: string,
-  options: RequestInit = {},
-): Promise<T> {
+async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const token = getToken();
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -56,9 +53,7 @@ async function request<T>(
   const data = contentType.includes("application/json") ? await res.json() : null;
 
   if (!res.ok) {
-    const message =
-      (data as { message?: string })?.message ??
-      `خطأ في الاتصال (${res.status})`;
+    const message = (data as { message?: string })?.message ?? `خطأ في الاتصال (${res.status})`;
     throw new ApiError(res.status, message, data);
   }
 
@@ -102,8 +97,7 @@ export type AuthResponse = {
 
 export const authApi = {
   login: (data: LoginPayload) => api.post<AuthResponse>("/auth/login", data),
-  register: (data: RegisterPayload) =>
-    api.post<AuthResponse>("/auth/register", data),
+  register: (data: RegisterPayload) => api.post<AuthResponse>("/auth/register", data),
   logout: () => api.post<void>("/auth/logout", {}),
   forgotPassword: (email: string) =>
     api.post<{ message: string }>("/auth/forgot-password", { email }),
@@ -203,28 +197,20 @@ export type Address = {
 
 export const addressesApi = {
   list: () => api.get<Address[]>("/addresses"),
-  create: (data: Omit<Address, "id">) =>
-    api.post<Address>("/addresses", data),
+  create: (data: Omit<Address, "id">) => api.post<Address>("/addresses", data),
   update: (id: string, data: Partial<Omit<Address, "id">>) =>
     api.put<Address>(`/addresses/${id}`, data),
   delete: (id: string) => api.delete<void>(`/addresses/${id}`),
-  setDefault: (id: string) =>
-    api.patch<Address>(`/addresses/${id}/default`, {}),
+  setDefault: (id: string) => api.patch<Address>(`/addresses/${id}/default`, {}),
 };
 
 // ═══════════════════════════════════════════════════════════════════
 //  Contact / Newsletter Endpoints
 // ═══════════════════════════════════════════════════════════════════
 export const contactApi = {
-  send: (data: {
-    name: string;
-    phone: string;
-    email: string;
-    type: string;
-    message: string;
-  }) => api.post<{ message: string }>("/contact", data),
-  subscribe: (email: string) =>
-    api.post<{ message: string }>("/newsletter/subscribe", { email }),
+  send: (data: { name: string; phone: string; email: string; type: string; message: string }) =>
+    api.post<{ message: string }>("/contact", data),
+  subscribe: (email: string) => api.post<{ message: string }>("/newsletter/subscribe", { email }),
 };
 
 // ═══════════════════════════════════════════════════════════════════

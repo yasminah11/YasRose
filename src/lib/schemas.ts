@@ -2,13 +2,8 @@ import { z } from "zod";
 
 // ─── Auth Schemas ─────────────────────────────────────────────────
 export const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, "البريد الإلكتروني مطلوب")
-    .email("البريد الإلكتروني غير صحيح"),
-  password: z
-    .string()
-    .min(6, "كلمة المرور يجب أن تكون ٦ أحرف على الأقل"),
+  email: z.string().min(1, "البريد الإلكتروني مطلوب").email("البريد الإلكتروني غير صحيح"),
+  password: z.string().min(6, "كلمة المرور يجب أن تكون ٦ أحرف على الأقل"),
 });
 export type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -16,10 +11,7 @@ export const registerSchema = z
   .object({
     firstName: z.string().min(2, "الاسم الأول يجب أن يكون حرفين على الأقل"),
     lastName: z.string().min(2, "اسم العائلة يجب أن يكون حرفين على الأقل"),
-    email: z
-      .string()
-      .min(1, "البريد الإلكتروني مطلوب")
-      .email("البريد الإلكتروني غير صحيح"),
+    email: z.string().min(1, "البريد الإلكتروني مطلوب").email("البريد الإلكتروني غير صحيح"),
     phone: z
       .string()
       .min(10, "رقم الجوال يجب أن يكون ١٠ أرقام على الأقل")
@@ -35,10 +27,7 @@ export const registerSchema = z
 export type RegisterFormData = z.infer<typeof registerSchema>;
 
 export const forgotPasswordSchema = z.object({
-  email: z
-    .string()
-    .min(1, "البريد الإلكتروني مطلوب")
-    .email("البريد الإلكتروني غير صحيح"),
+  email: z.string().min(1, "البريد الإلكتروني مطلوب").email("البريد الإلكتروني غير صحيح"),
 });
 export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 
@@ -46,10 +35,7 @@ export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 export const personalInfoSchema = z.object({
   firstName: z.string().min(2, "الاسم الأول مطلوب"),
   lastName: z.string().min(2, "اسم العائلة مطلوب"),
-  email: z
-    .string()
-    .min(1, "البريد الإلكتروني مطلوب")
-    .email("البريد الإلكتروني غير صحيح"),
+  email: z.string().min(1, "البريد الإلكتروني مطلوب").email("البريد الإلكتروني غير صحيح"),
   phone: z
     .string()
     .min(10, "رقم الجوال غير صحيح")
@@ -107,10 +93,7 @@ export const contactSchema = z.object({
     .string()
     .min(10, "رقم الجوال غير صحيح")
     .regex(/^[0-9+\s-]+$/, "رقم الجوال غير صحيح"),
-  email: z
-    .string()
-    .min(1, "البريد الإلكتروني مطلوب")
-    .email("البريد الإلكتروني غير صحيح"),
+  email: z.string().min(1, "البريد الإلكتروني مطلوب").email("البريد الإلكتروني غير صحيح"),
   type: z.string().min(1, "نوع الاستفسار مطلوب"),
   message: z.string().min(10, "الرسالة يجب أن تكون ١٠ أحرف على الأقل"),
 });
@@ -118,10 +101,7 @@ export type ContactFormData = z.infer<typeof contactSchema>;
 
 // ─── Newsletter Schema ────────────────────────────────────────────
 export const newsletterSchema = z.object({
-  email: z
-    .string()
-    .min(1, "البريد الإلكتروني مطلوب")
-    .email("البريد الإلكتروني غير صحيح"),
+  email: z.string().min(1, "البريد الإلكتروني مطلوب").email("البريد الإلكتروني غير صحيح"),
 });
 export type NewsletterFormData = z.infer<typeof newsletterSchema>;
 
