@@ -49,7 +49,7 @@ function Home() {
       <ByFlowerType />
       <BestSellers />
       <BuildYourOwnCTA />
-      <LuxuryCollections />
+
       <WhyChoose />
       <Atelier />
       <Reviews />
@@ -599,59 +599,6 @@ function BestSellers() {
   );
 }
 
-function LuxuryCollections() {
-  return (
-    <section className="py-32 container-luxe">
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="relative overflow-hidden rounded-[36px] aspect-[4/5] group">
-          <img
-            src={IMG.flatlay}
-            alt="مجموعة العلب الفاخرة"
-            loading="lazy"
-            className="w-full h-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 to-transparent" />
-          <div className="absolute inset-x-10 bottom-10 text-primary-foreground">
-            <div className="eyebrow text-rose-gold mb-3">مجموعة العلب</div>
-            <h3 className="font-display text-4xl leading-tight">علبة توقيع الدار</h3>
-            <p className="mt-3 text-sm opacity-80 max-w-xs">
-              وردة طويلة من أرقى المزارع، في علبة مصنوعة يدوياً.
-            </p>
-            <Link
-              to="/shop"
-              className="mt-6 inline-flex items-center gap-2 text-sm tracking-[0.2em]"
-            >
-              اكتشف <ArrowLeft className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-        <div className="relative overflow-hidden rounded-[36px] aspect-[4/5] group">
-          <img
-            src={IMG.b4}
-            alt="مجموعة الأوركيد"
-            loading="lazy"
-            className="w-full h-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 to-transparent" />
-          <div className="absolute inset-x-10 bottom-10 text-primary-foreground">
-            <div className="eyebrow text-rose-gold mb-3">مجموعة الأوركيد</div>
-            <h3 className="font-display text-4xl leading-tight">لحظة تأمل نادرة</h3>
-            <p className="mt-3 text-sm opacity-80 max-w-xs">
-              أوركيد فالينوبسيس مختار بعناية، لمساحات مميزة.
-            </p>
-            <Link
-              to="/shop"
-              className="mt-6 inline-flex items-center gap-2 text-sm tracking-[0.2em]"
-            >
-              اكتشف <ArrowLeft className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function WhyChoose() {
   const items = [
     {
@@ -902,7 +849,7 @@ function InstagramGallery() {
         <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
           <div>
             <div className="eyebrow text-rose-gold mb-3 flex items-center gap-2">
-              <Instagram className="w-4 h-4" /> @yasrose.ksa
+              <Instagram className="w-4 h-4" /> @yasrose
             </div>
             <h2 className="font-display text-3xl md:text-4xl">من أتلييه الدار</h2>
             <p className="mt-2 text-primary-foreground/50 text-sm">لحظات حقيقية من ورشة التنسيق</p>
@@ -917,21 +864,22 @@ function InstagramGallery() {
 
         {/* Horizontal scrolling strip */}
         <div className="overflow-hidden">
-          <div className="flex gap-3 animate-marquee-slow" style={{ width: "max-content" }}>
-            {[...imgs, ...imgs, ...imgs].map((item, i) => (
+          <div
+            className="flex gap-3 animate-marquee-slow whitespace-nowrap"
+            style={{ width: "max-content" }}
+          >
+            {[...imgs, ...imgs, ...imgs, ...imgs, ...imgs, ...imgs].map((item, i) => (
               <a
                 key={i}
                 href="#"
-                className="group relative overflow-hidden rounded-2xl shrink-0 block"
-                style={{ width: "200px", height: "200px", minWidth: "200px", display: "block" }}
+                className="group relative overflow-hidden rounded-2xl shrink-0"
+                style={{ width: "200px", height: "200px" }}
               >
                 <img
                   src={item.src}
                   alt={item.label}
                   loading="lazy"
-                  width={200}
-                  height={200}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-3">
                   <div className="text-xs font-display translate-y-2 group-hover:translate-y-0 transition-transform duration-300 whitespace-normal">
@@ -1012,19 +960,8 @@ function Atelier() {
                     IMG.b4,
                     IMG.flatlay,
                   ].map((src, i) => (
-                    <div
-                      key={i}
-                      className="shrink-0 rounded-xl overflow-hidden relative"
-                      style={{ width: "64px", height: "64px", minWidth: "64px" }}
-                    >
-                      <img
-                        src={src}
-                        alt=""
-                        width={64}
-                        height={64}
-                        className="absolute inset-0 w-full h-full object-cover block"
-                        loading="lazy"
-                      />
+                    <div key={i} className="shrink-0 w-16 h-16 rounded-xl overflow-hidden">
+                      <img src={src} alt="" className="w-full h-full object-cover" loading="lazy" />
                     </div>
                   ))}
                 </div>
