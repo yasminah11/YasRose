@@ -849,7 +849,7 @@ function InstagramGallery() {
         <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
           <div>
             <div className="eyebrow text-rose-gold mb-3 flex items-center gap-2">
-              <Instagram className="w-4 h-4" /> @yasrose
+              <Instagram className="w-4 h-4" /> @yasrose.ksa
             </div>
             <h2 className="font-display text-3xl md:text-4xl">من أتلييه الدار</h2>
             <p className="mt-2 text-primary-foreground/50 text-sm">لحظات حقيقية من ورشة التنسيق</p>
@@ -863,23 +863,49 @@ function InstagramGallery() {
         </div>
 
         {/* Horizontal scrolling strip */}
-        <div className="overflow-hidden">
-          <div
-            className="flex gap-3 animate-marquee-slow whitespace-nowrap"
-            style={{ width: "max-content" }}
-          >
+        <style>{`
+          @keyframes scroll-ltr {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+          }
+          .marquee-track {
+            animation: scroll-ltr 40s linear infinite;
+            display: flex;
+            gap: 12px;
+            width: max-content;
+            will-change: transform;
+          }
+          .marquee-track:hover { animation-play-state: paused; }
+        `}</style>
+        <div style={{ overflow: "hidden", width: "100%" }}>
+          <div className="marquee-track">
             {[...imgs, ...imgs, ...imgs, ...imgs, ...imgs, ...imgs].map((item, i) => (
               <a
                 key={i}
                 href="#"
-                className="group relative overflow-hidden rounded-2xl shrink-0"
-                style={{ width: "200px", height: "200px" }}
+                style={{
+                  width: "200px",
+                  height: "200px",
+                  minWidth: "200px",
+                  display: "block",
+                  position: "relative",
+                  borderRadius: "16px",
+                  overflow: "hidden",
+                  flexShrink: 0,
+                }}
               >
                 <img
                   src={item.src}
                   alt={item.label}
                   loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-3">
                   <div className="text-xs font-display translate-y-2 group-hover:translate-y-0 transition-transform duration-300 whitespace-normal">

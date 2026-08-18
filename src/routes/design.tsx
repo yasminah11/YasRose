@@ -188,7 +188,6 @@ const VASES = [
 ];
 
 type Design = {
-  name: string;
   flowers: Record<FlowerKey, number>;
   size: string;
   wrap: string;
@@ -208,7 +207,6 @@ const emptyFlowers = FLOWERS.reduce(
   {} as Record<FlowerKey, number>,
 );
 const initial: Design = {
-  name: "",
   flowers: { ...emptyFlowers, rose: 5 },
   size: "m",
   wrap: "white",
@@ -711,7 +709,7 @@ function BouquetSVG({
   W?: number;
   H?: number;
   showBadges?: boolean;
-  totals?: Record<string, number>;
+  totals?: any;
 }) {
   const uidRef = useRef("");
   if (!uidRef.current) uidRef.current = `b${++_uid}`;
@@ -836,9 +834,7 @@ function DesignPage() {
     try {
       const raw = localStorage.getItem("fn-bouquet-design-page");
       if (raw) setDesign({ ...initial, ...JSON.parse(raw) });
-    } catch (_) {
-      /* ignore */
-    }
+    } catch {}
   }, []);
 
   const update = useCallback((patch: Partial<Design>) => {
@@ -848,9 +844,7 @@ function DesignPage() {
       const next = { ...prev, ...patch };
       try {
         localStorage.setItem("fn-bouquet-design-page", JSON.stringify(next));
-      } catch (_) {
-        /* ignore */
-      }
+      } catch {}
       return next;
     });
   }, []);
@@ -967,12 +961,12 @@ function DesignPage() {
             <ChevronLeft className="w-3.5 h-3.5 text-muted-foreground" />
             <span className="text-sm text-rose-gold">صمم باقتك بنفسك</span>
           </div>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5">
+          <div className="flex flex-col gap-4">
             <div>
               <div className="eyebrow mb-3 flex items-center gap-2">
                 <Wand2 className="w-4 h-4" /> استوديو التنسيق
               </div>
-              <h1 className="font-display text-4xl md:text-5xl leading-tight">
+              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl leading-tight">
                 صمم باقتك
                 <span
                   className="italic font-light mr-3"
@@ -985,7 +979,7 @@ function DesignPage() {
                 اختر زهورك، التغليف، الشريط والإضافات — وشاهد باقتك الفاخرة تتشكل أمامك لحظةً بلحظة.
               </p>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="hidden sm:flex items-center gap-2 shrink-0">
               <button
                 onClick={undo}
                 aria-label="تراجع"
@@ -1025,9 +1019,9 @@ function DesignPage() {
 
       {/* ─ Studio ─ */}
       <div className="container-luxe py-8" dir="rtl">
-        <div className="grid lg:grid-cols-[1fr_440px] gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_440px] gap-6 lg:gap-8 items-start">
           {/* LEFT: Preview Panel */}
-          <div className="lg:sticky lg:top-24 order-2 lg:order-1">
+          <div className="lg:sticky lg:top-24 order-2">
             <BouquetPreview
               design={design}
               wrap={wrap}
@@ -1038,8 +1032,8 @@ function DesignPage() {
             />
           </div>
 
-          {/* RIGHT: Step editor */}
-          <div className="order-1 lg:order-2">
+          {/* RIGHT: Step editor — first on mobile */}
+          <div className="order-1">
             {/* Step Pills */}
             <div className="flex gap-2 overflow-x-auto pb-3 mb-5 -mx-1 px-1 scrollbar-hide">
               {STEPS.map((s) => {
@@ -1084,7 +1078,7 @@ function DesignPage() {
                   title="اختر أنواع الزهور"
                   subtitle="يمكنك اختيار أكثر من نوع لتنسيق غني"
                 >
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
                     {FLOWERS.map((f) => {
                       const active = design.flowers[f.key] > 0;
                       return (
@@ -1204,7 +1198,7 @@ function DesignPage() {
               {/* STEP 2 — Size */}
               {step === 2 && (
                 <StepWrapper title="حجم الباقة" subtitle="الحجم يؤثر على عدد الزهور وسعر التنسيق">
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
                     {SIZES.map((s) => (
                       <PickCard
                         key={s.key}
@@ -1230,7 +1224,7 @@ function DesignPage() {
                   title="نوع التغليف"
                   subtitle="التغليف هو أول ما تراه العين عند الاستلام"
                 >
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
                     {WRAPS.map((w) => (
                       <PickCard
                         key={w.key}
@@ -1338,7 +1332,7 @@ function DesignPage() {
                   title="إضافات فاخرة"
                   subtitle="أكمل الهدية بلمسة استثنائية تُفاجئ القلب"
                 >
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
                     {EXTRAS.map((e) => {
                       const active = design.extras.includes(e.key);
                       return (
@@ -1382,7 +1376,7 @@ function DesignPage() {
               {/* STEP 7 — Vase */}
               {step === 7 && (
                 <StepWrapper title="المزهرية" subtitle="أضيفي مزهرية وتبقى الذكرى أطول">
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
                     {VASES.map((v) => (
                       <PickCard
                         key={v.key}
@@ -1418,7 +1412,7 @@ function DesignPage() {
                       onChange={(v) => update({ recipient: v })}
                       placeholder="أدخلي اسم المستلم"
                     />
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
                       <FormInput
                         label="تاريخ التوصيل"
                         type="date"
@@ -1648,7 +1642,7 @@ function DesignPage() {
                       </>
                     )}
                   </button>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
                     <button
                       onClick={handleSave}
                       className="flex items-center justify-center gap-2 py-3 px-4 rounded-full border border-border hover:border-rose-gold text-sm transition"
@@ -1695,15 +1689,15 @@ function BouquetPreview({
   wrap: (typeof WRAPS)[0];
   ribbon: (typeof RIBBONS)[0];
   activeFlowers: typeof FLOWERS;
-  totals: Record<string, number>;
+  totals: any;
   vase: (typeof VASES)[0];
 }) {
   const size = SIZES.find((s) => s.key === design.size)!;
 
   return (
-    <div className="rounded-3xl bg-gradient-to-br from-blush/20 via-cream to-cream/80 border border-border/40 overflow-hidden shadow-luxe">
+    <div className="rounded-2xl lg:rounded-3xl bg-gradient-to-br from-blush/20 via-cream to-cream/80 border border-border/40 overflow-hidden shadow-luxe">
       {/* Header */}
-      <div className="px-5 pt-5 pb-3 flex items-center justify-between border-b border-border/30">
+      <div className="px-3 pt-3 pb-2 lg:px-5 lg:pt-5 lg:pb-3 flex items-center justify-between border-b border-border/30">
         <div>
           <div className="text-[10px] tracking-[0.25em] uppercase text-rose-gold mb-0.5">
             معاينة مباشرة
@@ -1729,8 +1723,8 @@ function BouquetPreview({
 
       {/* SVG */}
       <div
-        className="mx-4 my-4 rounded-2xl overflow-hidden bg-[#FFF8F3] border border-border/30 relative"
-        style={{ aspectRatio: "4/5" }}
+        className="mx-3 my-3 lg:mx-4 lg:my-4 rounded-2xl overflow-hidden bg-[#FFF8F3] border border-border/30 relative"
+        style={{ aspectRatio: "4/5", maxHeight: "50vw" }}
       >
         <BouquetSVG
           design={design}
