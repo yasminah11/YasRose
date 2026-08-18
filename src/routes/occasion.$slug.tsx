@@ -4,7 +4,7 @@ import { occasions } from "@/lib/shop-data";
 import { useEffect, useState, useRef } from "react";
 import { ArrowRight, ShoppingBag, Sparkles, Heart, X } from "lucide-react";
 
-export const Route = createFileRoute("/occasions/$slug")({
+export const Route = createFileRoute("/occasion/$slug")({
   head: ({ params }) => {
     const occ = occasions.find((o) => o.slug === params.slug);
     return {
