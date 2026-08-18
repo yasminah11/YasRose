@@ -259,6 +259,7 @@ function OccasionDetail() {
         ),
       );
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
 
   if (!occasion) {
@@ -277,7 +278,11 @@ function OccasionDetail() {
   const toggleWishlist = (id: string) => {
     setWishlist((prev) => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next;
     });
   };

@@ -33,7 +33,9 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    } catch {}
+    } catch (_) {
+      /* ignore localStorage errors */
+    }
   }, [items]);
 
   const toggle = useCallback((product: Product) => {

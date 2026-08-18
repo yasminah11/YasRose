@@ -40,7 +40,9 @@ function loadCart(): CartItem[] {
 function saveCart(items: CartItem[]) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-  } catch {}
+  } catch (_) {
+    /* ignore localStorage errors */
+  }
 }
 
 // ─── Context ─────────────────────────────────────────────────────────────────
